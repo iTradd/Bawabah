@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>%/'1) 'D9ED'!</title>
+    <title>إدارة العملاء</title>
     <style>
         html, body {
             margin: 0;
@@ -132,7 +132,7 @@
             font-weight: bold;
         }
 
-        /* #DH'F 'D%-*E'DJ) */
+        /* ألوان الإحتمالية */
         .high {
             background-color: #28a745;
             color: white;
@@ -167,62 +167,62 @@
 </head>
 <body>
     <header>
-        'D9ED'!
+        العملاء
     </header>
 <div class="navbar">
-    <a href="index.html">'D5A-) 'D1&J3J)</a>
-    <a href="Property.html">'D9B'1'*</a>
-    <a href="Contract.html">'D9BH/</a>
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="Property.html">العقارات</a>
+    <a href="Contract.html">العقود</a>
 </div>
-    <!-- 'D#21'1 'D9DHJ) -->
+    <!-- الأزرار العلوية -->
     <div class="action-buttons">
-        <button id="addClientBtn">%6'A) 9EJD ,/J/</button>
+        <button id="addClientBtn">إضافة عميل جديد</button>
     </div>
-        <!-- FEH0, %6'A) 9EJD -->
+        <!-- نموذج إضافة عميل -->
     <form id="clientForm">
         <div class="form-group">
-            <label for="clientName">'3E 'D9EJD:</label>
-            <input type="text" id="clientName" name="clientName" placeholder="'3E 'D9EJD" required>
+            <label for="clientName">اسم العميل:</label>
+            <input type="text" id="clientName" name="clientName" placeholder="اسم العميل" required>
         </div>
         <div class="form-group">
-            <label for="phoneNumber">1BE 'D,H'D:</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="1BE 'D,H'D" required>
+            <label for="phoneNumber">رقم الجوال:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="رقم الجوال" required>
         </div>
         <div class="form-group">
-            <label for="potentialProperty">'D9B'1 'DE-*ED:</label>
+            <label for="potentialProperty">العقار المحتمل:</label>
             <select id="potentialProperty" name="potentialProperty" required>
-                <option value="">'.*1 'D9B'1 'DE-*ED</option>
-                <!-- 3J*E *9(&) 'D9B'1'* EF Google Sheets -->
+                <option value="">اختر العقار المحتمل</option>
+                <!-- سيتم تعبئة العقارات من Google Sheets -->
             </select>
         </div>
         <div class="form-group">
-            <label for="probability">'D%-*E'DJ):</label>
+            <label for="probability">الإحتمالية:</label>
                 <select id="probability" name="probability" class="probability-select" required>
-                <option value="" class="">'.*1 'D%-*E'DJ)</option>
-                <option value="9'DJ)" class="high">9'DJ)</option>
-                <option value="E*H37)" class="medium">E*H37)</option>
-                <option value="EF.A6)" class="low">EF.A6)</option>
+                <option value="" class="">اختر الإحتمالية</option>
+                <option value="عالية" class="high">عالية</option>
+                <option value="متوسطة" class="medium">متوسطة</option>
+                <option value="منخفضة" class="low">منخفضة</option>
             </select>
         </div>
-        <button type="submit" class="submit-btn">-A8 'D9EJD</button>
+        <button type="submit" class="submit-btn">حفظ العميل</button>
     </form>
 
-    <!-- B'&E) 'D9ED'! -->
+    <!-- قائمة العملاء -->
     <div class="client-list">
-        <h2>B'&E) 'D9ED'!</h2>
+        <h2>قائمة العملاء</h2>
         <table>
             <thead>
                 <tr>
-                    <th>'3E 'D9EJD</th>
-                    <th>1BE 'D,H'D</th>
-                    <th>'D9B'1 'DE-*ED</th>
-                    <th>'D%-*E'DJ)</th>
-                    <th>'D%,1'!'*</th> <!-- 9EH/ ,/J/ -->
+                    <th>اسم العميل</th>
+                    <th>رقم الجوال</th>
+                    <th>العقار المحتمل</th>
+                    <th>الإحتمالية</th>
+                    <th>الإجراءات</th> <!-- عمود جديد -->
 
                 </tr>
             </thead>
             <tbody id="clientTableBody">
-                <!-- 3J*E *9(&) 'D9ED'! /JF'EJCJK' -->
+                <!-- سيتم تعبئة العملاء ديناميكيًا -->
             </tbody>
         </table>
     </div>
@@ -232,7 +232,7 @@
     <script>
 const scriptURL = 'https://script.google.com/macros/s/AKfycbw2MNBeXvZGvkdwh6DCS9-BhMEkaGZNuqHjihxth_TZaYPH16GtZNjpRiLJoGdEN00/exec';
 
-// 916 'D9ED'!
+// عرض العملاء
 function fetchClients() {
     fetch(`${scriptURL}?action=getClients&sheet=client`)
     .then(response => response.json())
@@ -242,28 +242,28 @@ function fetchClients() {
 
 function renderClients(clients) {
     const clientTableBody = document.getElementById('clientTableBody');
-    clientTableBody.innerHTML = ''; // *A1J: 'D,/HD
+    clientTableBody.innerHTML = ''; // تفريغ الجدول
 
     if (clients.length === 0) {
-        clientTableBody.innerHTML = '<tr><td colspan="5">D' *H,/ (J'F'*</td></tr>';
+        clientTableBody.innerHTML = '<tr><td colspan="5">لا توجد بيانات</td></tr>';
         return;
     }
 
     clients.forEach(client => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${client.'3E_'D9EJD || ':J1 E*HA1'}</td>
-            <td>${client.1BE_'D,H'D || ':J1 E*HA1'}</td>
-            <td>${client.'D9B'1_'DE-*ED || ':J1 E*HA1'}</td>
-            <td class="${getProbabilityClass(client.'D'-*E'DJ))}">${client.'D'-*E'DJ) || ':J1 E*HA1'}</td>
+            <td>${client.اسم_العميل || 'غير متوفر'}</td>
+            <td>${client.رقم_الجوال || 'غير متوفر'}</td>
+            <td>${client.العقار_المحتمل || 'غير متوفر'}</td>
+            <td class="${getProbabilityClass(client.الاحتمالية)}">${client.الاحتمالية || 'غير متوفر'}</td>
             <td>
-                <button class="delete-btn" data-client="${client.'3E_'D9EJD}">-0A</button>
+                <button class="delete-btn" data-client="${client.اسم_العميل}">حذف</button>
             </td>
         `;
         clientTableBody.appendChild(row);
     });
 
-    // %6'A) E3*E9'* 'D#-/'+ D#21'1 'D-0A
+    // إضافة مستمعات الأحداث لأزرار الحذف
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const clientName = e.target.getAttribute('data-client');
@@ -272,7 +272,7 @@ function renderClients(clients) {
     });
 }
     function deleteClient(clientName) {
-        if (confirm(`GD *1J/ -0A 'D9EJD "${clientName}"`)) {
+        if (confirm(`هل تريد حذف العميل "${clientName}"؟`)) {
             fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -285,10 +285,10 @@ function renderClients(clients) {
             .then(response => response.json())
             .then(result => {
                 if (result.status === 'success') {
-                    alert('*E -0A 'D9EJD (F,'-!');
-                    fetchClients(); // *-/J+ B'&E) 'D9ED'!
+                    alert('تم حذف العميل بنجاح!');
+                    fetchClients(); // تحديث قائمة العملاء
                 } else {
-                    alert('-/+ .7# #+F'! 'D-0A.');
+                    alert('حدث خطأ أثناء الحذف.');
                 }
             })
             .catch(error => console.error('Error deleting client:', error));
@@ -297,14 +297,14 @@ function renderClients(clients) {
 
 function getProbabilityClass(probability) {
     switch (probability) {
-        case "9'DJ)": return "high";
-        case "E*H37)": return "medium";
-        case "EF.A6)": return "low";
+        case "عالية": return "high";
+        case "متوسطة": return "medium";
+        case "منخفضة": return "low";
         default: return "";
     }
 }
 
-// %6'A) 9EJD ,/J/
+// إضافة عميل جديد
 const clientForm = document.getElementById('clientForm');
 clientForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -318,7 +318,7 @@ clientForm.addEventListener('submit', (e) => {
     })
         .then(response => response.text())
         .then(result => {
-            alert("*E -A8 'D9EJD (F,'-!");
+            alert("تم حفظ العميل بنجاح!");
             fetchClients();
             clientForm.reset();
             clientForm.style.display = 'none';
@@ -326,31 +326,31 @@ clientForm.addEventListener('submit', (e) => {
         .catch(error => console.error("Error adding client:", error));
 });
 
-// 916 FEH0, %6'A) 'D9EJD 9F/ 'DFB1 9DI 21 "%6'A) 9EJD ,/J/"
-const addClientBtn = document.getElementById('addClientBtn'); // 'D*#C/ EF *91JA 'D21
+// عرض نموذج إضافة العميل عند النقر على زر "إضافة عميل جديد"
+const addClientBtn = document.getElementById('addClientBtn'); // التأكد من تعريف الزر
 addClientBtn.addEventListener('click', () => {
-    clientForm.style.display = 'block'; // 916 'DFEH0,
-    clientForm.reset(); // %9'/) *9JJF 'D-BHD
+    clientForm.style.display = 'block'; // عرض النموذج
+    clientForm.reset(); // إعادة تعيين الحقول
 });
 
-// ,D( 'D9B'1'* 'DE-*ED)
+// جلب العقارات المحتملة
 function fetchPotentialProperties() {
     const potentialPropertySelect = document.getElementById('potentialProperty');
     fetch(`${scriptURL}?action=getProperties&sheet=Real_Estate`)
         .then(response => response.json())
         .then(properties => {
-            potentialPropertySelect.innerHTML = '<option value="">'.*1 'D9B'1 'DE-*ED</option>';
+            potentialPropertySelect.innerHTML = '<option value="">اختر العقار المحتمل</option>';
             properties.forEach(property => {
                 const option = document.createElement('option');
-                option.value = property.'3E_'D9B'1;
-                option.textContent = property.'3E_'D9B'1;
+                option.value = property.اسم_العقار;
+                option.textContent = property.اسم_العقار;
                 potentialPropertySelect.appendChild(option);
             });
         })
         .catch(error => console.error("Error fetching properties:", error));
 }
 
-// *-EJD 'D9ED'! H'D9B'1'* 9F/ A*- 'D5A-)
+// تحميل العملاء والعقارات عند فتح الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     fetchClients();
     fetchPotentialProperties();
