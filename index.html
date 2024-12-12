@@ -256,7 +256,7 @@
     loadingIndicator.style.display = 'block';
 
     const url = `${apiUrl}?action=getProperties&sheet=Real_Estate&query=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}`;
-    fetch(url)
+    fetch(url, { mode: 'cors' })
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
