@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تفاصيل العقار</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap">
+    <script src="script.js"></script> <!-- استيراد ملف apiUrl -->
     <style>
         body {
             font-family: 'Cairo', sans-serif;
@@ -210,7 +211,6 @@ button:hover {
     </div>
 
     <script>
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbw1MPRSI1XBfrfRtZ2kfNt36OE97lPegF2QSw1HaAXqzmdOLB8T3UEQufw98JG1Tmww/exec';
 
     function fetchPropertyDetails(propertyId) {
     console.log('Fetching property details for ID:', propertyId);
@@ -223,7 +223,12 @@ button:hover {
             return response.json();
         })
         .then(property => {
-            console.log('Property details:', property);
+            console.log('Property details (Raw):', property);
+if (!property || Object.keys(property).length === 0) {
+    console.error('Property details are empty or undefined:', property);
+    alert('تعذر العثور على تفاصيل العقار.');
+    return;
+}
             renderPropertyDetails(property);
         })
         .catch(error => {
@@ -285,7 +290,7 @@ function generateDynamicDetails(property) {
  let currentProperty = null; // تعريف المتغير على مستوى الكود
 
 function editProperty(propertyId) {
-    fetch(`${apiUrl}?action=getPropertyDetails&sheet=Real_Estate&propertyId=${propertyId}`)
+fetch(`${apiUrl}?action=getPropertyDetails&sheet=Real_Estate&propertyId=${propertyId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch property details');
@@ -439,11 +444,17 @@ function deleteProperty(propertyId) {
 function archiveProperty(propertyId) {
     if (confirm("هل أنت متأكد من أرشفة هذا العقار؟")) {
         fetch(`${apiUrl}?action=archive&sheet=Real_Estate&propertyId=${propertyId}`, { 
-            method: 'POST' 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to archive property');
+            }
+            return response.text();
+        })
         .then(result => {
-            alert(result); // عرض النتيجة للمستخدم
+            alert('تمت أرشفة العقار بنجاح');
             window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
         })
         .catch(error => {
