@@ -443,23 +443,34 @@ function deleteProperty(propertyId) {
 
 function archiveProperty(propertyId) {
     if (confirm("هل أنت متأكد من أرشفة هذا العقار؟")) {
-        fetch(`${apiUrl}?action=archive&sheet=Real_Estate&propertyId=${propertyId}`, { 
+        fetch(`${apiUrl}`, { 
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'archiveProperty',
+                sheet: 'Real_Estate',
+                propertyId: propertyId
+            })
         })
         .then(response => {
+            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error('Failed to archive property');
             }
-            return response.text();
+            return response.json();
         })
         .then(result => {
-            alert('تمت أرشفة العقار بنجاح');
-            window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+            console.log('Archive result:', result);
+            if (result.status === 'success') {
+                alert('تمت أرشفة العقار بنجاح');
+                window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+            } else {
+                throw new Error(result.message || 'Unknown error');
+            }
         })
         .catch(error => {
-            console.error('Error archiving property:', error);
-            alert('حدث خطأ أثناء الأرشفة.');
+            console.error('Archive failed with message:', error.message);
+            alert(`حدث خطأ أثناء الأرشفة: ${error.message}`);
         });
     }
 }
