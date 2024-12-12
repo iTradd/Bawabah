@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل العقار</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #F9FAFB;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(90deg, #F96E2A, #FB8C3E);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .property-image {
+            flex: 1;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-details {
+            flex: 2;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-details h1 {
+            color: #F96E2A;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .property-details p {
+            font-size: 16px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .property-details p strong {
+            color: #141414;
+        }
+
+        .property-details a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .property-details a:hover {
+            text-decoration: underline;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            background-color: #F96E2A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-buttons button:hover {
+            background-color: #141414;
+            transform: scale(1.05);
+        }
+        
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #F96E2A;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #F96E2A;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 90vh; /* تحديد أقصى ارتفاع للنافذة */
+    overflow: hidden; /* إخفاء التمرير في البداية */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body {
+    flex-grow: 1; /* يجعل المحتوى يتمدد */
+    overflow-y: auto; /* السماح بالتمرير العمودي */
+    max-height: calc(90vh - 60px); /* تخصيص ارتفاع للتمرير داخل النافذة */
+    padding-right: 10px; /* لتفادي التصاق النص بشريط التمرير */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input,
+textarea,
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #F96E2A;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #FB8C3E;
+    transform: scale(1.05);
+}
+
+        
+    </style>
+</head>
+<body>
+    <header>تفاصيل العقار</header>
+    <div class="property-container" id="propertyDetails">
+        <!-- سيتم عرض تفاصيل العقار هنا -->
+    </div>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbwHJkjTyfOtm1I2uM9DbsoyyZi5leVl3jSu2IJFhXecshvfhI4GRmCwc9CFHzMFUhmV/exec';
+
+    function fetchPropertyDetails(propertyId) {
+    console.log('Fetching property details for ID:', propertyId);
+    fetch(`${apiUrl}?action=getPropertyDetails&sheet=Real_Estate&propertyId=${propertyId}`)
+        .then(response => {
+            console.log('Response received:', response);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(property => {
+            console.log('Property details:', property);
+            renderPropertyDetails(property);
+        })
+        .catch(error => {
+            console.error('Error fetching property details:', error);
+            document.getElementById('propertyDetails').innerHTML = '<p>حدث خطأ أثناء جلب البيانات.</p>';
+        });
+}
+
+
+
+       function renderPropertyDetails(property) {
+  const container = document.getElementById('propertyDetails');
+  container.innerHTML = `
+    <div class="property-image">
+      <img src="${property.الصور}" alt="${property.اسم_العقار}">
+    </div>
+    <div class="property-details">
+      <h1>${property.اسم_العقار}</h1>
+      <p><strong>رقم الإعلان:</strong> ${property.معرف_العقار}</p>
+      <p><strong>نوع العقار:</strong> ${property.نوع_العقار}</p>
+      <p><strong>الموقع:</strong> ${property.الموقع}</p>
+      <p><a href="${property.رابط_الموقع}" target="_blank">عرض على الخريطة</a></p>
+      <p><strong>الوصف:</strong> ${property.الوصف}</p>
+      <p><strong>المساحة:</strong> ${property.المساحة} م²</p>
+      <p><strong>عرض الشارع:</strong> ${property.عرض_الشارع} متر</p>
+      <p><strong>الواجهة:</strong> ${property.الواجهة}</p>
+      <p><strong>الحالة:</strong> ${property.الحالة}</p> <!-- عرض الحالة كنص -->
+                    ${generateDynamicDetails(property)}
+                    <div class="action-buttons">
+                        <button onclick="editProperty(${property.معرف_العقار})">تعديل</button>
+                        <button onclick="deleteProperty(${property.معرف_العقار})">حذف</button>
+                        <button onclick="archiveProperty(${property.معرف_العقار})">أرشفة</button>
+                    </div>
+                </div>
+            `;
+        }
+
+function generateDynamicDetails(property) {
+    if (property.نوع_العقار === 'فلة' || property.نوع_العقار === 'شقة' || property.نوع_العقار === 'دور' || property.نوع_العقار === 'شاليه') {
+        return `
+            <p><strong>عدد الغرف:</strong> ${property.عدد_الغرف}</p>
+            <p><strong>عدد الحمامات:</strong> ${property.عدد_الحمامات}</p>
+        `;
+    } else if (property.نوع_العقار === 'أرض' || property.نوع_العقار === 'مزرعة') {
+        return `
+            <p><strong>استخدام العقار:</strong> ${property.استخدام_العقار}</p>
+            <p><strong>عدد الشوارع المحيطة:</strong> ${property.عدد_الشوارع_المحيطة}</p>
+        `;
+    } else if (property.نوع_العقار === 'محل') {
+        return `
+            <p><strong>مساحة المحل:</strong> ${property.مساحة_المحل} م²</p>
+            <p><strong>عدد الفتحات:</strong> ${property.عدد_الفتحات}</p>
+        `;
+    }
+    return '';
+}
+
+
+ let currentProperty = null; // تعريف المتغير على مستوى الكود
+
+function editProperty(propertyId) {
+    fetch(`${apiUrl}?action=getPropertyDetails&sheet=Real_Estate&propertyId=${propertyId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch property details');
+            }
+            return response.json();
+        })
+        .then(property => {
+            currentProperty = property; // تحديث المتغير ببيانات العقار الحالية
+
+            // تعبئة الحقول في النموذج
+            document.getElementById('editName').value = property.اسم_العقار || '';
+            document.getElementById('editType').value = property.نوع_العقار || '';
+            document.getElementById('editLocation').value = property.الموقع || '';
+            document.getElementById('editMapLink').value = property.رابط_الموقع || '';
+            document.getElementById('editDescription').value = property.الوصف || '';
+            document.getElementById('editStreetWidth').value = property.عرض_الشارع || '';
+            document.getElementById('editFacade').value = property.الواجهة || '';
+
+            // تحديث الحقول الديناميكية بناءً على نوع العقار
+            updateFieldsBasedOnType(property.نوع_العقار);
+
+            if (['شقة', 'فلة', 'دور', 'شاليه'].includes(property.نوع_العقار)) {
+                document.getElementById('editRooms').value = property.عدد_الغرف || 0;
+                document.getElementById('editBathrooms').value = property.عدد_الحمامات || 0;
+            } else if (['أرض', 'مزرعة'].includes(property.نوع_العقار)) {
+                document.getElementById('editUsage').value = property.استخدام_العقار || '';
+                document.getElementById('editStreets').value = property.عدد_الشوارع_المحيطة || 0;
+            } else if (property.نوع_العقار === 'محل') {
+                document.getElementById('editArea').value = property.مساحة_المحل || 0;
+                document.getElementById('editOpenings').value = property.عدد_الفتحات || 0;
+            }
+
+            // عرض نافذة التعديل
+            document.getElementById('editModal').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching property details:', error);
+            alert('حدث خطأ أثناء جلب بيانات العقار.');
+        });
+}
+
+        function updateFieldsBasedOnType() {
+    const type = document.getElementById('editType').value;
+    const dynamicFields = document.getElementById('dynamicFields');
+    dynamicFields.innerHTML = ''; // مسح الحقول الحالية
+
+    if (['شقة', 'فلة', 'دور', 'شاليه'].includes(type)) {
+        dynamicFields.innerHTML = `
+            <label>عدد الغرف:</label>
+            <input type="number" id="editRooms" min="0">
+            <label>عدد الحمامات:</label>
+            <input type="number" id="editBathrooms" min="0">
+        `;
+    } else if (['أرض', 'مزرعة'].includes(type)) {
+        dynamicFields.innerHTML = `
+            <label>استخدام العقار:</label>
+            <input type="text" id="editUsage">
+            <label>عدد الشوارع المحيطة:</label>
+            <input type="number" id="editStreets" min="0">
+        `;
+    } else if (type === 'محل') {
+        dynamicFields.innerHTML = `
+            <label>مساحة المحل:</label>
+            <input type="number" id="editArea" min="0">
+            <label>عدد الفتحات:</label>
+            <input type="number" id="editOpenings" min="0">
+        `;
+    }
+}
+
+function saveChanges() {
+    if (!currentProperty) {
+        alert('لم يتم تحميل بيانات العقار بشكل صحيح.');
+        return;
+    }
+
+    const updatedProperty = {
+        معرف_العقار: currentProperty.معرف_العقار, // استخدام معرف العقار لتحديد الصف
+        اسم_العقار: document.getElementById('editName').value,
+        نوع_العقار: document.getElementById('editType').value,
+        الموقع: document.getElementById('editLocation').value,
+        رابط_الموقع: document.getElementById('editMapLink').value,
+        الوصف: document.getElementById('editDescription').value,
+        عرض_الشارع: document.getElementById('editStreetWidth').value,
+        الواجهة: document.getElementById('editFacade').value,
+    };
+
+    const type = updatedProperty.نوع_العقار;
+
+    // إضافة الحقول الديناميكية بناءً على نوع العقار
+    if (['شقة', 'فلة', 'دور', 'شاليه'].includes(type)) {
+        updatedProperty.عدد_الغرف = document.getElementById('editRooms').value;
+        updatedProperty.عدد_الحمامات = document.getElementById('editBathrooms').value;
+    } else if (['أرض', 'مزرعة'].includes(type)) {
+        updatedProperty.استخدام_العقار = document.getElementById('editUsage').value;
+        updatedProperty.عدد_الشوارع_المحيطة = document.getElementById('editStreets').value;
+    } else if (type === 'محل') {
+        updatedProperty.مساحة_المحل = document.getElementById('editArea').value;
+        updatedProperty.عدد_الفتحات = document.getElementById('editOpenings').value;
+    }
+
+    console.log("Data to send:", updatedProperty); // تسجيل البيانات المرسلة
+
+    // إرسال البيانات إلى الخادم
+    fetch(`${apiUrl}?action=updateProperty&sheet=Real_Estate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedProperty),
+    })
+       .then(response => {
+    console.log('Server Response:', response); // سجل استجابة الخادم
+    if (!response.ok) {
+        throw new Error('Failed to update property');
+    }
+    return response.text();
+})
+        .then(result => {
+            alert('تم حفظ التعديلات بنجاح');
+            closeModal(); // إغلاق النافذة
+        })
+      .catch(error => {
+    console.error('Error saving changes:', error); // سجل تفاصيل الخطأ
+    alert('حدث خطأ أثناء حفظ التعديلات.');
+});
+}
+
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+}
+
+        
+        
+function deleteProperty(propertyId) {
+    if (confirm("هل أنت متأكد من حذف هذا العقار؟")) {
+        fetch(`${apiUrl}?action=delete&sheet=Real_Estate&propertyId=${propertyId}`, { 
+            method: 'POST' 
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result); // عرض النتيجة للمستخدم
+            window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+        })
+        .catch(error => {
+            console.error('Error deleting property:', error);
+            alert('حدث خطأ أثناء الحذف.');
+        });
+    }
+}
+
+
+function archiveProperty(propertyId) {
+    if (confirm("هل أنت متأكد من أرشفة هذا العقار؟")) {
+        fetch(`${apiUrl}?action=archive&sheet=Real_Estate&propertyId=${propertyId}`, { 
+            method: 'POST' 
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result); // عرض النتيجة للمستخدم
+            window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+        })
+        .catch(error => {
+            console.error('Error archiving property:', error);
+            alert('حدث خطأ أثناء الأرشفة.');
+        });
+    }
+}
+
+
+        const urlParams = new URLSearchParams(window.location.search);
+const propertyId = urlParams.get('propertyId');
+console.log('Property ID:', propertyId); // تحقق مما إذا كان معرّف العقار يظهر هنا
+if (propertyId) {
+    fetchPropertyDetails(propertyId);
+} else {
+    document.getElementById('propertyDetails').innerHTML = '<p>معرف العقار غير متوفر.</p>';
+}
+    </script>
+<div class="modal" id="editModal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>تعديل العقار</h2>
+            <button onclick="closeModal()">إغلاق</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>اسم العقار:</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>نوع العقار:</label>
+                <select id="editType" onchange="updateFieldsBasedOnType()">
+                    <option value="شقة">شقة</option>
+                    <option value="فلة">فلة</option>
+                    <option value="دور">دور</option>
+                    <option value="شاليه">شاليه</option>
+                    <option value="أرض">أرض</option>
+                    <option value="مزرعة">مزرعة</option>
+                    <option value="محل">محل</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>الموقع:</label>
+                <input type="text" id="editLocation">
+            </div>
+            <div class="form-group">
+                <label>رابط الموقع على الخريطة:</label>
+                <input type="text" id="editMapLink">
+            </div>
+            <div class="form-group">
+                <label>الوصف:</label>
+                <textarea id="editDescription"></textarea>
+            </div>
+            <div class="form-group">
+                <label>عرض الشارع:</label>
+                <input type="text" id="editStreetWidth">
+            </div>
+            <div class="form-group">
+                <label>الواجهة:</label>
+                <input type="text" id="editFacade">
+            </div>
+            <div id="dynamicFields" class="form-group">
+                <!-- سيتم توليد الحقول الديناميكية هنا بناءً على نوع العقار -->
+            </div>
+            <div class="form-group">
+                <label>المرفقات الحالية:</label>
+                <div id="currentAttachments"></div>
+            </div>
+            <div class="form-group">
+                <label>إضافة مرفقات جديدة:</label>
+                <input type="file" id="newAttachments" multiple>
+                <div id="uploadStatus"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button onclick="saveChanges()">حفظ</button>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

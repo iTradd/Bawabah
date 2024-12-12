@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأرشيف</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #F9FAFB;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(90deg, #F96E2A, #FB8C3E);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .properties {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .property-card h3 {
+            color: #F96E2A;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .property-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .property-card select {
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>الأرشيف</header>
+    <div id="properties" class="properties"></div>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbwHJkjTyfOtm1I2uM9DbsoyyZi5leVl3jSu2IJFhXecshvfhI4GRmCwc9CFHzMFUhmV/exec';
+
+        function fetchArchivedProperties() {
+            const url = `${apiUrl}?sheet=Archive&action=getArchivedProperties`;
+            fetch(url)
+                .then(response => response.json())
+                .then(properties => renderProperties(properties))
+                .catch(error => {
+                    console.error('Error fetching archived properties:', error);
+                    document.getElementById('properties').innerHTML = '<p>حدث خطأ أثناء جلب البيانات.</p>';
+                });
+        }
+
+        function renderProperties(properties) {
+            const container = document.getElementById('properties');
+            container.innerHTML = '';
+            properties.forEach(property => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                card.innerHTML = `
+                    <img src="${property.الصور || 'placeholder.jpg'}" alt="${property.اسم_العقار}">
+                    <h3>${property.اسم_العقار}</h3>
+                    <p><strong>الحالة:</strong> 
+                        <select onchange="updatePropertyStatus('${property.معرف_العقار}', this.value)">
+                            <option value="مباع" ${property.الحالة === 'مباع' ? 'selected' : ''}>مباع</option>
+                            <option value="غير متاح" ${property.الحالة === 'غير متاح' ? 'selected' : ''}>غير متاح</option>
+                        </select>
+                    </p>
+                    <p><strong>السعر:</strong> ${property.السعر} ريال</p>
+                    <p><strong>رقم الإعلان:</strong> ${property.معرف_العقار}</p>
+                    <p><strong>نوع العقار:</strong> ${property.نوع_العقار}</p>
+                    <p><strong>الموقع:</strong> ${property.الموقع}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updatePropertyStatus(propertyId, newStatus) {
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            action: 'updateStatus',
+            sheet: 'Archive',
+            propertyId: propertyId,
+            newStatus: newStatus
+        })
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log(result); // طباعة النتيجة للتأكد من نجاح التحديث
+        alert('تم تحديث الحالة بنجاح');
+        fetchArchivedProperties(); // إعادة تحميل البيانات بعد التحديث
+    })
+    .catch(error => {
+        console.error('Error updating property status:', error);
+        alert('حدث خطأ أثناء تحديث الحالة.');
+    });
+}
+
+        fetchArchivedProperties();
+    </script>
+</body>
+</html>

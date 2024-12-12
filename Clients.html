@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العملاء</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #FBF8EF;
+            direction: rtl;
+        }
+        header {
+            background-color: #F96E2A;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #78B3CE;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.navbar a {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: white;
+    color: #141414;
+}
+        h1 {
+            text-align: center;
+            color: #141414;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons button {
+            background-color: #F96E2A;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-buttons button:hover {
+            background-color: #141414;
+        }
+
+        .client-list {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            text-align: right;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        table th {
+            background-color: #F96E2A;
+            color: white;
+        }
+
+        form {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .probability-select {
+            font-weight: bold;
+        }
+
+        /* ألوان الإحتمالية */
+        .high {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .medium {
+            background-color: #ff851b;
+            color: white;
+        }
+
+        .low {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        button.submit-btn {
+            background-color: #F96E2A;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button.submit-btn:hover {
+            background-color: #141414;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        العملاء
+    </header>
+<div class="navbar">
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="Property.html">العقارات</a>
+    <a href="Contract.html">العقود</a>
+</div>
+    <!-- الأزرار العلوية -->
+    <div class="action-buttons">
+        <button id="addClientBtn">إضافة عميل جديد</button>
+    </div>
+        <!-- نموذج إضافة عميل -->
+    <form id="clientForm">
+        <div class="form-group">
+            <label for="clientName">اسم العميل:</label>
+            <input type="text" id="clientName" name="clientName" placeholder="اسم العميل" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">رقم الجوال:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="رقم الجوال" required>
+        </div>
+        <div class="form-group">
+            <label for="potentialProperty">العقار المحتمل:</label>
+            <select id="potentialProperty" name="potentialProperty" required>
+                <option value="">اختر العقار المحتمل</option>
+                <!-- سيتم تعبئة العقارات من Google Sheets -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="probability">الإحتمالية:</label>
+                <select id="probability" name="probability" class="probability-select" required>
+                <option value="" class="">اختر الإحتمالية</option>
+                <option value="عالية" class="high">عالية</option>
+                <option value="متوسطة" class="medium">متوسطة</option>
+                <option value="منخفضة" class="low">منخفضة</option>
+            </select>
+        </div>
+        <button type="submit" class="submit-btn">حفظ العميل</button>
+    </form>
+
+    <!-- قائمة العملاء -->
+    <div class="client-list">
+        <h2>قائمة العملاء</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم العميل</th>
+                    <th>رقم الجوال</th>
+                    <th>العقار المحتمل</th>
+                    <th>الإحتمالية</th>
+                    <th>الإجراءات</th> <!-- عمود جديد -->
+
+                </tr>
+            </thead>
+            <tbody id="clientTableBody">
+                <!-- سيتم تعبئة العملاء ديناميكيًا -->
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwijnsfY63-9fwqc0yRapIFbfskZUPUgcOaNmGy_MpDYTHcRQyfDyWFCEBV-ukr3YOD/exec';
+
+// عرض العملاء
+function fetchClients() {
+    fetch(`${scriptURL}?action=getClients&sheet=client`)
+    .then(response => response.json())
+    .then(data => renderClients(data))
+    .catch(error => console.error("Error fetching clients:", error));
+}
+
+function renderClients(clients) {
+    const clientTableBody = document.getElementById('clientTableBody');
+    clientTableBody.innerHTML = ''; // تفريغ الجدول
+
+    if (clients.length === 0) {
+        clientTableBody.innerHTML = '<tr><td colspan="5">لا توجد بيانات</td></tr>';
+        return;
+    }
+
+    clients.forEach(client => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${client.اسم_العميل || 'غير متوفر'}</td>
+            <td>${client.رقم_الجوال || 'غير متوفر'}</td>
+            <td>${client.العقار_المحتمل || 'غير متوفر'}</td>
+            <td class="${getProbabilityClass(client.الاحتمالية)}">${client.الاحتمالية || 'غير متوفر'}</td>
+            <td>
+                <button class="delete-btn" data-client="${client.اسم_العميل}">حذف</button>
+            </td>
+        `;
+        clientTableBody.appendChild(row);
+    });
+
+    // إضافة مستمعات الأحداث لأزرار الحذف
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const clientName = e.target.getAttribute('data-client');
+            deleteClient(clientName);
+        });
+    });
+}
+    function deleteClient(clientName) {
+        if (confirm(`هل تريد حذف العميل "${clientName}"؟`)) {
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'deleteClient',
+                    clientName: clientName,
+                    sheet: 'client'
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === 'success') {
+                    alert('تم حذف العميل بنجاح!');
+                    fetchClients(); // تحديث قائمة العملاء
+                } else {
+                    alert('حدث خطأ أثناء الحذف.');
+                }
+            })
+            .catch(error => console.error('Error deleting client:', error));
+        }
+    }
+
+function getProbabilityClass(probability) {
+    switch (probability) {
+        case "عالية": return "high";
+        case "متوسطة": return "medium";
+        case "منخفضة": return "low";
+        default: return "";
+    }
+}
+
+// إضافة عميل جديد
+const clientForm = document.getElementById('clientForm');
+clientForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(clientForm);
+    const data = Object.fromEntries(formData);
+
+    fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify({ ...data, action: 'addClient', sheet: 'client' }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+        .then(response => response.text())
+        .then(result => {
+            alert("تم حفظ العميل بنجاح!");
+            fetchClients();
+            clientForm.reset();
+            clientForm.style.display = 'none';
+        })
+        .catch(error => console.error("Error adding client:", error));
+});
+
+// عرض نموذج إضافة العميل عند النقر على زر "إضافة عميل جديد"
+const addClientBtn = document.getElementById('addClientBtn'); // التأكد من تعريف الزر
+addClientBtn.addEventListener('click', () => {
+    clientForm.style.display = 'block'; // عرض النموذج
+    clientForm.reset(); // إعادة تعيين الحقول
+});
+
+// جلب العقارات المحتملة
+function fetchPotentialProperties() {
+    const potentialPropertySelect = document.getElementById('potentialProperty');
+    fetch(`${scriptURL}?action=getProperties&sheet=Real_Estate`)
+        .then(response => response.json())
+        .then(properties => {
+            potentialPropertySelect.innerHTML = '<option value="">اختر العقار المحتمل</option>';
+            properties.forEach(property => {
+                const option = document.createElement('option');
+                option.value = property.اسم_العقار;
+                option.textContent = property.اسم_العقار;
+                potentialPropertySelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error("Error fetching properties:", error));
+}
+
+// تحميل العملاء والعقارات عند فتح الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    fetchClients();
+    fetchPotentialProperties();
+});
+
+    </script>
+</body>
+</html>

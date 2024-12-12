@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة العقارات</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap');
+        
+        /* إعدادات عامة */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: #F9FAFB;
+            color: #333;
+            direction: rtl;
+        }
+
+        header {
+            background: linear-gradient(90deg, #F96E2A, #FB8C3E);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .property-form {
+            background: #E3F2FD;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px auto;
+            max-width: 700px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .property-form h3 {
+            text-align: center;
+            color: #F96E2A;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #B0BEC5;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 80px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #F96E2A;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #dynamicFields {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>إدارة العقارات</header>
+
+    <div class="property-form">
+        <h3>إضافة عقار جديد</h3>
+        <form id="propertyForm">
+            <div class="form-group">
+                <label for="propertyName">اسم العقار:</label>
+                <input type="text" id="propertyName" name="name" placeholder="اسم العقار" required>
+            </div>
+            <div class="form-group">
+                <label for="propertyType">نوع العقار:</label>
+                <select id="propertyType" name="type" required onchange="updateDynamicFields()">
+                    <option value="">اختر نوع العقار</option>
+                    <option value="شقة">شقة</option>
+                    <option value="فلة">فلة</option>
+                    <option value="دور">دور</option>
+                    <option value="شاليه">شاليه</option>
+                    <option value="أرض">أرض</option>
+                    <option value="مزرعة">مزرعة</option>
+                    <option value="محل">محل</option>
+                </select>
+            </div>
+            <div class="form-group">
+            <label for="ownerName">اسم المالك:</label>
+            <input type="text" id="ownerName" name="ownerName" placeholder="اسم المالك" required>
+        </div>
+        <div class="form-group">
+            <label for="ownerContact">جوال المالك:</label>
+            <input type="text" id="ownerContact" name="ownerContact" placeholder="جوال المالك" required>
+        </div>
+            <div class="form-group">
+                <label for="propertyLocation">الموقع:</label>
+                <input type="text" id="propertyLocation" name="location" placeholder="الموقع" required>
+            </div>
+<div class="form-group">
+    <label for="mapLocation">رابط الموقع الجغرافي:</label>
+    <input type="text" id="mapLocation" name="mapLocation" placeholder="لصق رابط الموقع من Google Maps ">
+</div>
+
+            <div class="form-group">
+                <label for="propertyDescription">الوصف:</label>
+                <textarea id="propertyDescription" name="description" placeholder="الوصف"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="propertyArea">المساحة:</label>
+                <input type="number" id="propertyArea" name="area" placeholder="المساحة بالمتر المربع" required>
+            </div>
+            <div class="form-group">
+                <label for="streetWidth">عرض الشارع:</label>
+                <input type="number" id="streetWidth" name="streetWidth" placeholder="عرض الشارع بالمتر">
+            </div>
+            <div class="form-group">
+                <label for="propertyFront">الواجهة:</label>
+                <input type="text" id="propertyFront" name="front" placeholder="الواجهة (شمالية، جنوبية...)">
+            </div>
+            <div id="dynamicFields"></div>
+            <div class="form-group">
+    <label for="attachments">المرفقات (صور أو فيديوهات):</label>
+    <input type="file" id="attachments" name="attachments" multiple accept="image/*,video/*">
+    <small>يمكنك تحميل أكثر من ملف. الصورة الأولى ستكون صورة العقار الرئيسية.</small>
+</div>
+
+            <div class="form-group">
+                <button type="submit">حفظ العقار</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbwHJkjTyfOtm1I2uM9DbsoyyZi5leVl3jSu2IJFhXecshvfhI4GRmCwc9CFHzMFUhmV/exec';
+
+        // تحديث الحقول الديناميكية
+        function updateDynamicFields() {
+            const propertyType = document.getElementById('propertyType').value;
+            const dynamicFields = document.getElementById('dynamicFields');
+            dynamicFields.innerHTML = ''; // تفريغ الحقول السابقة
+
+            if (['شقة', 'فلة', 'دور', 'شاليه'].includes(propertyType)) {
+                dynamicFields.innerHTML = `
+                    <div class="form-group">
+                        <label for="rooms">عدد الغرف:</label>
+                        <input type="number" id="rooms" name="rooms" placeholder="عدد الغرف">
+                    </div>
+                    <div class="form-group">
+                        <label for="bathrooms">عدد الحمامات:</label>
+                        <input type="number" id="bathrooms" name="bathrooms" placeholder="عدد الحمامات">
+                    </div>`;
+            } else if (['أرض', 'مزرعة'].includes(propertyType)) {
+                dynamicFields.innerHTML = `
+                    <div class="form-group">
+                        <label for="usage">استخدام العقار:</label>
+                        <input type="text" id="usage" name="usage" placeholder="استخدام العقار (سكني، تجاري...)">
+                    </div>
+                    <div class="form-group">
+                        <label for="streetCount">عدد الشوارع المحيطة:</label>
+                        <input type="number" id="streetCount" name="streetCount" placeholder="عدد الشوارع المحيطة">
+                    </div>`;
+            } else if (propertyType === 'محل') {
+                dynamicFields.innerHTML = `
+                    <div class="form-group">
+                        <label for="shopArea">مساحة المحل:</label>
+                        <input type="number" id="shopArea" name="shopArea" placeholder="مساحة المحل بالمتر المربع">
+                    </div>
+                    <div class="form-group">
+                        <label for="openings">عدد الفتحات:</label>
+                        <input type="number" id="openings" name="openings" placeholder="عدد الفتحات">
+                    </div>`;
+            }
+        }
+
+        // معالجة النموذج
+        document.getElementById('propertyForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const files = document.getElementById('attachments').files;
+
+    // إضافة الملفات إلى FormData
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+    }
+
+    const propertyData = Object.fromEntries(formData.entries());
+    propertyData.id = `prop-${Date.now()}`; // إنشاء معرف فريد تلقائي
+
+    fetch(`${apiUrl}?action=addPropertyWithFiles`, {
+        method: 'POST',
+        body: formData // رفع الملفات مع البيانات
+    })
+        .then(response => response.text())
+        .then(result => {
+            alert('تم حفظ العقار والمرفقات بنجاح!');
+            this.reset();
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+    </script>
+</body>
+</html>
