@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متابعة عقود الإيجار</title>
+    <title>E*'(9) 9BH/ 'D%J,'1</title>
     <style>
         html, body {
             margin: 0;
@@ -156,92 +156,92 @@
 </head>
 <body>
     <header>
-        العقود
+        'D9BH/
     </header>
 <div class="navbar">
-    <a href="index.html">الصفحة الرئيسية</a>
-    <a href="Property.html">العقارات</a>
-    <a href="Clients.html">العملاء</a>
+    <a href="index.html">'D5A-) 'D1&J3J)</a>
+    <a href="Property.html">'D9B'1'*</a>
+    <a href="Clients.html">'D9ED'!</a>
 </div>
-<!-- الأزرار العلوية -->
+<!-- 'D#21'1 'D9DHJ) -->
 <div class="action-buttons">
-    <button id="addContractBtn">إضافة عقد جديد</button>
+    <button id="addContractBtn">%6'A) 9B/ ,/J/</button>
 </div>
 
-<!-- نموذج إضافة عقد -->
+<!-- FEH0, %6'A) 9B/ -->
 <form id="contractForm">
     <div class="form-group">
-        <label for="clientName">اسم العميل:</label>
-        <input type="text" id="clientName" name="clientName" placeholder="اسم العميل" required>
+        <label for="clientName">'3E 'D9EJD:</label>
+        <input type="text" id="clientName" name="clientName" placeholder="'3E 'D9EJD" required>
     </div>
     <div class="form-group">
-        <label for="startDate">تاريخ بداية العقد:</label>
+        <label for="startDate">*'1J. (/'J) 'D9B/:</label>
         <input type="date" id="startDate" name="startDate" required>
     </div>
     <div class="form-group">
-        <label for="endDate">تاريخ نهاية العقد:</label>
+        <label for="endDate">*'1J. FG'J) 'D9B/:</label>
         <input type="date" id="endDate" name="endDate" required>
     </div>
     <div class="form-group">
-        <label for="location">الموقع:</label>
-        <input type="text" id="location" name="location" placeholder="الموقع" required>
+        <label for="location">'DEHB9:</label>
+        <input type="text" id="location" name="location" placeholder="'DEHB9" required>
     </div>
     <div class="form-group">
-        <label for="propertyType">نوع العقار:</label>
-        <input type="text" id="propertyType" name="propertyType" placeholder="نوع العقار" required>
+        <label for="propertyType">FH9 'D9B'1:</label>
+        <input type="text" id="propertyType" name="propertyType" placeholder="FH9 'D9B'1" required>
     </div>
-    <button type="submit" class="submit-btn">حفظ العقد</button>
+    <button type="submit" class="submit-btn">-A8 'D9B/</button>
 </form>
 
-    <!-- العقود التي ستنتهي قريبًا -->
+    <!-- 'D9BH/ 'D*J 3*F*GJ B1J(K' -->
     <div class="expiring-contracts">
-        <h2>عقود ستنتهي خلال الشهر الحالي</h2>
-        <p id="expiringContractsCount" class="highlight">عدد العقود: 0</p>
+        <h2>9BH/ 3*F*GJ .D'D 'D4G1 'D-'DJ</h2>
+        <p id="expiringContractsCount" class="highlight">9// 'D9BH/: 0</p>
         <table>
             <thead>
                 <tr>
-                    <th>اسم العميل</th>
-                    <th>تاريخ بداية العقد</th>
-                    <th>تاريخ الانتهاء</th>
-                    <th>الموقع</th>
-                    <th>نوع العقار</th>
+                    <th>'3E 'D9EJD</th>
+                    <th>*'1J. (/'J) 'D9B/</th>
+                    <th>*'1J. 'D'F*G'!</th>
+                    <th>'DEHB9</th>
+                    <th>FH9 'D9B'1</th>
                 </tr>
             </thead>
             <tbody id="expiringContractsBody">
-                <!-- سيتم تعبئة العقود المنتهية قريبًا هنا ديناميكيًا -->
+                <!-- 3J*E *9(&) 'D9BH/ 'DEF*GJ) B1J(K' GF' /JF'EJCJK' -->
             </tbody>
         </table>
     </div>
 
-    <!-- قائمة العقود -->
+    <!-- B'&E) 'D9BH/ -->
     <div class="contract-list">
-        <h2>قائمة العقود</h2>
-        <p id="totalContractsCount" class="highlight">عدد العقود: 0</p>
+        <h2>B'&E) 'D9BH/</h2>
+        <p id="totalContractsCount" class="highlight">9// 'D9BH/: 0</p>
         <table>
             <thead>
                 <tr>
-                    <th>اسم العميل</th>
-                    <th>تاريخ بداية العقد</th>
-                    <th>تاريخ الانتهاء</th>
-                    <th>الموقع</th>
-                    <th>نوع العقار</th>
-                    <th>الإجراءات</th> <!-- عمود جديد -->
+                    <th>'3E 'D9EJD</th>
+                    <th>*'1J. (/'J) 'D9B/</th>
+                    <th>*'1J. 'D'F*G'!</th>
+                    <th>'DEHB9</th>
+                    <th>FH9 'D9B'1</th>
+                    <th>'D%,1'!'*</th> <!-- 9EH/ ,/J/ -->
                 </tr>
             </thead>
             <tbody id="contractTableBody">
-                <!-- يتم تعبئة العقود ديناميكياً -->
+                <!-- J*E *9(&) 'D9BH/ /JF'EJCJ'K -->
             </tbody>
         </table>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbweCyT1-vvH-QE02Rlv7eOERWm5_TJSmei-cFvyevaNBKGbZTudep1Ly18BQvuysPft/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw2MNBeXvZGvkdwh6DCS9-BhMEkaGZNuqHjihxth_TZaYPH16GtZNjpRiLJoGdEN00/exec';
         const addContractBtn = document.getElementById('addContractBtn');
 const contractForm = document.getElementById('contractForm');
 
 addContractBtn.addEventListener('click', () => {
-    contractForm.style.display = 'block'; // عرض النموذج
-    contractForm.reset(); // إعادة تعيين الحقول
+    contractForm.style.display = 'block'; // 916 'DFEH0,
+    contractForm.reset(); // %9'/) *9JJF 'D-BHD
 });
         const contractTableBody = document.getElementById('contractTableBody');
         const expiringContractsBody = document.getElementById('expiringContractsBody');
@@ -253,7 +253,7 @@ addContractBtn.addEventListener('click', () => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return `${day}-${month}-${year}`; // صيغة اليوم-الشهر-السنة
+    return `${day}-${month}-${year}`; // 5J:) 'DJHE-'D4G1-'D3F)
 }
 
 
@@ -275,11 +275,11 @@ addContractBtn.addEventListener('click', () => {
             .then(response => response.json())
             .then(result => {
                 if (result.status === 'success') {
-                    alert('تم حفظ العقد بنجاح!');
+                    alert('*E -A8 'D9B/ (F,'-!');
                     fetchContracts();
-                    contractForm.style.display = 'none'; // إخفاء النموذج بعد الحفظ
+                    contractForm.style.display = 'none'; // %.A'! 'DFEH0, (9/ 'D-A8
                 } else {
-                    alert('حدث خطأ أثناء الحفظ.');
+                    alert('-/+ .7# #+F'! 'D-A8.');
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -295,7 +295,7 @@ function fetchContracts() {
         .catch(error => console.error('Error fetching contracts:', error));
 }
 function renderContracts(contracts) {
-    contractTableBody.innerHTML = ''; // تنظيف الجدول قبل الإضافة
+    contractTableBody.innerHTML = ''; // *F8JA 'D,/HD B(D 'D%6'A)
     contracts.forEach(contract => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -305,13 +305,13 @@ function renderContracts(contracts) {
             <td>${contract.location}</td>
             <td>${contract.propertyType}</td>
             <td>
-                <button class="delete-btn" data-client="${contract.clientName}">حذف</button>
+                <button class="delete-btn" data-client="${contract.clientName}">-0A</button>
             </td>
         `;
         contractTableBody.appendChild(row);
     });
 
-    // إضافة مستمعات الأحداث لأزرار الحذف
+    // %6'A) E3*E9'* 'D#-/'+ D#21'1 'D-0A
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             const clientName = e.target.getAttribute('data-client');
@@ -319,7 +319,7 @@ function renderContracts(contracts) {
         });
     });
 
-    totalContractsCount.textContent = `عدد العقود: ${contracts.length}`;
+    totalContractsCount.textContent = `9// 'D9BH/: ${contracts.length}`;
 }
 
 function renderExpiringContracts(contracts) {
@@ -344,11 +344,11 @@ function renderExpiringContracts(contracts) {
         expiringContractsBody.appendChild(row);
     });
 
-    expiringContractsCount.textContent = `عدد العقود: ${expiringContracts.length}`;
+    expiringContractsCount.textContent = `9// 'D9BH/: ${expiringContracts.length}`;
 }
-    // وظيفة حذف العقد
+    // H8JA) -0A 'D9B/
     function deleteContract(clientName) {
-        if (confirm(`هل تريد حذف العقد الخاص بـ ${clientName}؟`)) {
+        if (confirm(`GD *1J/ -0A 'D9B/ 'D.'5 (@ ${clientName}`)) {
             fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -360,10 +360,10 @@ function renderExpiringContracts(contracts) {
             .then(response => response.json())
             .then(result => {
                 if (result.status === 'success') {
-                    alert('تم حذف العقد بنجاح!');
-                    fetchContracts(); // تحديث العقود بعد الحذف
+                    alert('*E -0A 'D9B/ (F,'-!');
+                    fetchContracts(); // *-/J+ 'D9BH/ (9/ 'D-0A
                 } else {
-                    alert('حدث خطأ أثناء الحذف.');
+                    alert('-/+ .7# #+F'! 'D-0A.');
                 }
             })
             .catch(error => console.error('Error:', error));

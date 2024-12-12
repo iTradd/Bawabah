@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفاصيل العقار</title>
+    <title>*A'5JD 'D9B'1</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap">
     <style>
         body {
@@ -144,17 +144,17 @@
     border-radius: 10px;
     width: 500px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-height: 90vh; /* تحديد أقصى ارتفاع للنافذة */
-    overflow: hidden; /* إخفاء التمرير في البداية */
+    max-height: 90vh; /* *-/J/ #B5I '1*A'9 DDF'A0) */
+    overflow: hidden; /* %.A'! 'D*E1J1 AJ 'D(/'J) */
     display: flex;
     flex-direction: column;
 }
 
 .modal-body {
-    flex-grow: 1; /* يجعل المحتوى يتمدد */
-    overflow-y: auto; /* السماح بالتمرير العمودي */
-    max-height: calc(90vh - 60px); /* تخصيص ارتفاع للتمرير داخل النافذة */
-    padding-right: 10px; /* لتفادي التصاق النص بشريط التمرير */
+    flex-grow: 1; /* J,9D 'DE-*HI J*E// */
+    overflow-y: auto; /* 'D3E'- ('D*E1J1 'D9EH/J */
+    max-height: calc(90vh - 60px); /* *.5J5 '1*A'9 DD*E1J1 /'.D 'DF'A0) */
+    padding-right: 10px; /* D*A'/J 'D*5'B 'DF5 (41J7 'D*E1J1 */
 }
 
 .form-group {
@@ -204,13 +204,13 @@ button:hover {
     </style>
 </head>
 <body>
-    <header>تفاصيل العقار</header>
+    <header>*A'5JD 'D9B'1</header>
     <div class="property-container" id="propertyDetails">
-        <!-- سيتم عرض تفاصيل العقار هنا -->
+        <!-- 3J*E 916 *A'5JD 'D9B'1 GF' -->
     </div>
 
     <script>
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbwHJkjTyfOtm1I2uM9DbsoyyZi5leVl3jSu2IJFhXecshvfhI4GRmCwc9CFHzMFUhmV/exec';
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbw2MNBeXvZGvkdwh6DCS9-BhMEkaGZNuqHjihxth_TZaYPH16GtZNjpRiLJoGdEN00/exec';
 
     function fetchPropertyDetails(propertyId) {
     console.log('Fetching property details for ID:', propertyId);
@@ -228,7 +228,7 @@ button:hover {
         })
         .catch(error => {
             console.error('Error fetching property details:', error);
-            document.getElementById('propertyDetails').innerHTML = '<p>حدث خطأ أثناء جلب البيانات.</p>';
+            document.getElementById('propertyDetails').innerHTML = '<p>-/+ .7# #+F'! ,D( 'D(J'F'*.</p>';
         });
 }
 
@@ -238,51 +238,51 @@ button:hover {
   const container = document.getElementById('propertyDetails');
   container.innerHTML = `
     <div class="property-image">
-      <img src="${property.الصور}" alt="${property.اسم_العقار}">
+      <img src="${property.'D5H1}" alt="${property.'3E_'D9B'1}">
     </div>
     <div class="property-details">
-      <h1>${property.اسم_العقار}</h1>
-      <p><strong>رقم الإعلان:</strong> ${property.معرف_العقار}</p>
-      <p><strong>نوع العقار:</strong> ${property.نوع_العقار}</p>
-      <p><strong>الموقع:</strong> ${property.الموقع}</p>
-      <p><a href="${property.رابط_الموقع}" target="_blank">عرض على الخريطة</a></p>
-      <p><strong>الوصف:</strong> ${property.الوصف}</p>
-      <p><strong>المساحة:</strong> ${property.المساحة} م²</p>
-      <p><strong>عرض الشارع:</strong> ${property.عرض_الشارع} متر</p>
-      <p><strong>الواجهة:</strong> ${property.الواجهة}</p>
-      <p><strong>الحالة:</strong> ${property.الحالة}</p> <!-- عرض الحالة كنص -->
+      <h1>${property.'3E_'D9B'1}</h1>
+      <p><strong>1BE 'D%9D'F:</strong> ${property.E91A_'D9B'1}</p>
+      <p><strong>FH9 'D9B'1:</strong> ${property.FH9_'D9B'1}</p>
+      <p><strong>'DEHB9:</strong> ${property.'DEHB9}</p>
+      <p><a href="${property.1'(7_'DEHB9}" target="_blank">916 9DI 'D.1J7)</a></p>
+      <p><strong>'DH5A:</strong> ${property.'DH5A}</p>
+      <p><strong>'DE3'-):</strong> ${property.'DE3'-)} E�</p>
+      <p><strong>916 'D4'19:</strong> ${property.916_'D4'19} E*1</p>
+      <p><strong>'DH',G):</strong> ${property.'DH',G)}</p>
+      <p><strong>'D-'D):</strong> ${property.'D-'D)}</p> <!-- 916 'D-'D) CF5 -->
                     ${generateDynamicDetails(property)}
                     <div class="action-buttons">
-                        <button onclick="editProperty(${property.معرف_العقار})">تعديل</button>
-                        <button onclick="deleteProperty(${property.معرف_العقار})">حذف</button>
-                        <button onclick="archiveProperty(${property.معرف_العقار})">أرشفة</button>
+                        <button onclick="editProperty(${property.E91A_'D9B'1})">*9/JD</button>
+                        <button onclick="deleteProperty(${property.E91A_'D9B'1})">-0A</button>
+                        <button onclick="archiveProperty(${property.E91A_'D9B'1})">#14A)</button>
                     </div>
                 </div>
             `;
         }
 
 function generateDynamicDetails(property) {
-    if (property.نوع_العقار === 'فلة' || property.نوع_العقار === 'شقة' || property.نوع_العقار === 'دور' || property.نوع_العقار === 'شاليه') {
+    if (property.FH9_'D9B'1 === 'AD)' || property.FH9_'D9B'1 === '4B)' || property.FH9_'D9B'1 === '/H1' || property.FH9_'D9B'1 === '4'DJG') {
         return `
-            <p><strong>عدد الغرف:</strong> ${property.عدد_الغرف}</p>
-            <p><strong>عدد الحمامات:</strong> ${property.عدد_الحمامات}</p>
+            <p><strong>9// 'D:1A:</strong> ${property.9//_'D:1A}</p>
+            <p><strong>9// 'D-E'E'*:</strong> ${property.9//_'D-E'E'*}</p>
         `;
-    } else if (property.نوع_العقار === 'أرض' || property.نوع_العقار === 'مزرعة') {
+    } else if (property.FH9_'D9B'1 === '#16' || property.FH9_'D9B'1 === 'E219)') {
         return `
-            <p><strong>استخدام العقار:</strong> ${property.استخدام_العقار}</p>
-            <p><strong>عدد الشوارع المحيطة:</strong> ${property.عدد_الشوارع_المحيطة}</p>
+            <p><strong>'3*./'E 'D9B'1:</strong> ${property.'3*./'E_'D9B'1}</p>
+            <p><strong>9// 'D4H'19 'DE-J7):</strong> ${property.9//_'D4H'19_'DE-J7)}</p>
         `;
-    } else if (property.نوع_العقار === 'محل') {
+    } else if (property.FH9_'D9B'1 === 'E-D') {
         return `
-            <p><strong>مساحة المحل:</strong> ${property.مساحة_المحل} م²</p>
-            <p><strong>عدد الفتحات:</strong> ${property.عدد_الفتحات}</p>
+            <p><strong>E3'-) 'DE-D:</strong> ${property.E3'-)_'DE-D} E�</p>
+            <p><strong>9// 'DA*-'*:</strong> ${property.9//_'DA*-'*}</p>
         `;
     }
     return '';
 }
 
 
- let currentProperty = null; // تعريف المتغير على مستوى الكود
+ let currentProperty = null; // *91JA 'DE*:J1 9DI E3*HI 'DCH/
 
 function editProperty(propertyId) {
     fetch(`${apiUrl}?action=getPropertyDetails&sheet=Real_Estate&propertyId=${propertyId}`)
@@ -293,64 +293,64 @@ function editProperty(propertyId) {
             return response.json();
         })
         .then(property => {
-            currentProperty = property; // تحديث المتغير ببيانات العقار الحالية
+            currentProperty = property; // *-/J+ 'DE*:J1 ((J'F'* 'D9B'1 'D-'DJ)
 
-            // تعبئة الحقول في النموذج
-            document.getElementById('editName').value = property.اسم_العقار || '';
-            document.getElementById('editType').value = property.نوع_العقار || '';
-            document.getElementById('editLocation').value = property.الموقع || '';
-            document.getElementById('editMapLink').value = property.رابط_الموقع || '';
-            document.getElementById('editDescription').value = property.الوصف || '';
-            document.getElementById('editStreetWidth').value = property.عرض_الشارع || '';
-            document.getElementById('editFacade').value = property.الواجهة || '';
+            // *9(&) 'D-BHD AJ 'DFEH0,
+            document.getElementById('editName').value = property.'3E_'D9B'1 || '';
+            document.getElementById('editType').value = property.FH9_'D9B'1 || '';
+            document.getElementById('editLocation').value = property.'DEHB9 || '';
+            document.getElementById('editMapLink').value = property.1'(7_'DEHB9 || '';
+            document.getElementById('editDescription').value = property.'DH5A || '';
+            document.getElementById('editStreetWidth').value = property.916_'D4'19 || '';
+            document.getElementById('editFacade').value = property.'DH',G) || '';
 
-            // تحديث الحقول الديناميكية بناءً على نوع العقار
-            updateFieldsBasedOnType(property.نوع_العقار);
+            // *-/J+ 'D-BHD 'D/JF'EJCJ) (F'!K 9DI FH9 'D9B'1
+            updateFieldsBasedOnType(property.FH9_'D9B'1);
 
-            if (['شقة', 'فلة', 'دور', 'شاليه'].includes(property.نوع_العقار)) {
-                document.getElementById('editRooms').value = property.عدد_الغرف || 0;
-                document.getElementById('editBathrooms').value = property.عدد_الحمامات || 0;
-            } else if (['أرض', 'مزرعة'].includes(property.نوع_العقار)) {
-                document.getElementById('editUsage').value = property.استخدام_العقار || '';
-                document.getElementById('editStreets').value = property.عدد_الشوارع_المحيطة || 0;
-            } else if (property.نوع_العقار === 'محل') {
-                document.getElementById('editArea').value = property.مساحة_المحل || 0;
-                document.getElementById('editOpenings').value = property.عدد_الفتحات || 0;
+            if (['4B)', 'AD)', '/H1', '4'DJG'].includes(property.FH9_'D9B'1)) {
+                document.getElementById('editRooms').value = property.9//_'D:1A || 0;
+                document.getElementById('editBathrooms').value = property.9//_'D-E'E'* || 0;
+            } else if (['#16', 'E219)'].includes(property.FH9_'D9B'1)) {
+                document.getElementById('editUsage').value = property.'3*./'E_'D9B'1 || '';
+                document.getElementById('editStreets').value = property.9//_'D4H'19_'DE-J7) || 0;
+            } else if (property.FH9_'D9B'1 === 'E-D') {
+                document.getElementById('editArea').value = property.E3'-)_'DE-D || 0;
+                document.getElementById('editOpenings').value = property.9//_'DA*-'* || 0;
             }
 
-            // عرض نافذة التعديل
+            // 916 F'A0) 'D*9/JD
             document.getElementById('editModal').style.display = 'block';
         })
         .catch(error => {
             console.error('Error fetching property details:', error);
-            alert('حدث خطأ أثناء جلب بيانات العقار.');
+            alert('-/+ .7# #+F'! ,D( (J'F'* 'D9B'1.');
         });
 }
 
         function updateFieldsBasedOnType() {
     const type = document.getElementById('editType').value;
     const dynamicFields = document.getElementById('dynamicFields');
-    dynamicFields.innerHTML = ''; // مسح الحقول الحالية
+    dynamicFields.innerHTML = ''; // E3- 'D-BHD 'D-'DJ)
 
-    if (['شقة', 'فلة', 'دور', 'شاليه'].includes(type)) {
+    if (['4B)', 'AD)', '/H1', '4'DJG'].includes(type)) {
         dynamicFields.innerHTML = `
-            <label>عدد الغرف:</label>
+            <label>9// 'D:1A:</label>
             <input type="number" id="editRooms" min="0">
-            <label>عدد الحمامات:</label>
+            <label>9// 'D-E'E'*:</label>
             <input type="number" id="editBathrooms" min="0">
         `;
-    } else if (['أرض', 'مزرعة'].includes(type)) {
+    } else if (['#16', 'E219)'].includes(type)) {
         dynamicFields.innerHTML = `
-            <label>استخدام العقار:</label>
+            <label>'3*./'E 'D9B'1:</label>
             <input type="text" id="editUsage">
-            <label>عدد الشوارع المحيطة:</label>
+            <label>9// 'D4H'19 'DE-J7):</label>
             <input type="number" id="editStreets" min="0">
         `;
-    } else if (type === 'محل') {
+    } else if (type === 'E-D') {
         dynamicFields.innerHTML = `
-            <label>مساحة المحل:</label>
+            <label>E3'-) 'DE-D:</label>
             <input type="number" id="editArea" min="0">
-            <label>عدد الفتحات:</label>
+            <label>9// 'DA*-'*:</label>
             <input type="number" id="editOpenings" min="0">
         `;
     }
@@ -358,57 +358,57 @@ function editProperty(propertyId) {
 
 function saveChanges() {
     if (!currentProperty) {
-        alert('لم يتم تحميل بيانات العقار بشكل صحيح.');
+        alert('DE J*E *-EJD (J'F'* 'D9B'1 (4CD 5-J-.');
         return;
     }
 
     const updatedProperty = {
-        معرف_العقار: currentProperty.معرف_العقار, // استخدام معرف العقار لتحديد الصف
-        اسم_العقار: document.getElementById('editName').value,
-        نوع_العقار: document.getElementById('editType').value,
-        الموقع: document.getElementById('editLocation').value,
-        رابط_الموقع: document.getElementById('editMapLink').value,
-        الوصف: document.getElementById('editDescription').value,
-        عرض_الشارع: document.getElementById('editStreetWidth').value,
-        الواجهة: document.getElementById('editFacade').value,
+        E91A_'D9B'1: currentProperty.E91A_'D9B'1, // '3*./'E E91A 'D9B'1 D*-/J/ 'D5A
+        '3E_'D9B'1: document.getElementById('editName').value,
+        FH9_'D9B'1: document.getElementById('editType').value,
+        'DEHB9: document.getElementById('editLocation').value,
+        1'(7_'DEHB9: document.getElementById('editMapLink').value,
+        'DH5A: document.getElementById('editDescription').value,
+        916_'D4'19: document.getElementById('editStreetWidth').value,
+        'DH',G): document.getElementById('editFacade').value,
     };
 
-    const type = updatedProperty.نوع_العقار;
+    const type = updatedProperty.FH9_'D9B'1;
 
-    // إضافة الحقول الديناميكية بناءً على نوع العقار
-    if (['شقة', 'فلة', 'دور', 'شاليه'].includes(type)) {
-        updatedProperty.عدد_الغرف = document.getElementById('editRooms').value;
-        updatedProperty.عدد_الحمامات = document.getElementById('editBathrooms').value;
-    } else if (['أرض', 'مزرعة'].includes(type)) {
-        updatedProperty.استخدام_العقار = document.getElementById('editUsage').value;
-        updatedProperty.عدد_الشوارع_المحيطة = document.getElementById('editStreets').value;
-    } else if (type === 'محل') {
-        updatedProperty.مساحة_المحل = document.getElementById('editArea').value;
-        updatedProperty.عدد_الفتحات = document.getElementById('editOpenings').value;
+    // %6'A) 'D-BHD 'D/JF'EJCJ) (F'!K 9DI FH9 'D9B'1
+    if (['4B)', 'AD)', '/H1', '4'DJG'].includes(type)) {
+        updatedProperty.9//_'D:1A = document.getElementById('editRooms').value;
+        updatedProperty.9//_'D-E'E'* = document.getElementById('editBathrooms').value;
+    } else if (['#16', 'E219)'].includes(type)) {
+        updatedProperty.'3*./'E_'D9B'1 = document.getElementById('editUsage').value;
+        updatedProperty.9//_'D4H'19_'DE-J7) = document.getElementById('editStreets').value;
+    } else if (type === 'E-D') {
+        updatedProperty.E3'-)_'DE-D = document.getElementById('editArea').value;
+        updatedProperty.9//_'DA*-'* = document.getElementById('editOpenings').value;
     }
 
-    console.log("Data to send:", updatedProperty); // تسجيل البيانات المرسلة
+    console.log("Data to send:", updatedProperty); // *3,JD 'D(J'F'* 'DE13D)
 
-    // إرسال البيانات إلى الخادم
+    // %13'D 'D(J'F'* %DI 'D.'/E
     fetch(`${apiUrl}?action=updateProperty&sheet=Real_Estate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProperty),
     })
        .then(response => {
-    console.log('Server Response:', response); // سجل استجابة الخادم
+    console.log('Server Response:', response); // 3,D '3*,'() 'D.'/E
     if (!response.ok) {
         throw new Error('Failed to update property');
     }
     return response.text();
 })
         .then(result => {
-            alert('تم حفظ التعديلات بنجاح');
-            closeModal(); // إغلاق النافذة
+            alert('*E -A8 'D*9/JD'* (F,'-');
+            closeModal(); // %:D'B 'DF'A0)
         })
       .catch(error => {
-    console.error('Error saving changes:', error); // سجل تفاصيل الخطأ
-    alert('حدث خطأ أثناء حفظ التعديلات.');
+    console.error('Error saving changes:', error); // 3,D *A'5JD 'D.7#
+    alert('-/+ .7# #+F'! -A8 'D*9/JD'*.');
 });
 }
 
@@ -419,36 +419,36 @@ function closeModal() {
         
         
 function deleteProperty(propertyId) {
-    if (confirm("هل أنت متأكد من حذف هذا العقار؟")) {
+    if (confirm("GD #F* E*#C/ EF -0A G0' 'D9B'1")) {
         fetch(`${apiUrl}?action=delete&sheet=Real_Estate&propertyId=${propertyId}`, { 
             method: 'POST' 
         })
         .then(response => response.text())
         .then(result => {
-            alert(result); // عرض النتيجة للمستخدم
-            window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+            alert(result); // 916 'DF*J,) DDE3*./E
+            window.location.href = 'index.html'; // %9'/) 'D*H,JG DD5A-) 'D1&J3J)
         })
         .catch(error => {
             console.error('Error deleting property:', error);
-            alert('حدث خطأ أثناء الحذف.');
+            alert('-/+ .7# #+F'! 'D-0A.');
         });
     }
 }
 
 
 function archiveProperty(propertyId) {
-    if (confirm("هل أنت متأكد من أرشفة هذا العقار؟")) {
+    if (confirm("GD #F* E*#C/ EF #14A) G0' 'D9B'1")) {
         fetch(`${apiUrl}?action=archive&sheet=Real_Estate&propertyId=${propertyId}`, { 
             method: 'POST' 
         })
         .then(response => response.text())
         .then(result => {
-            alert(result); // عرض النتيجة للمستخدم
-            window.location.href = 'index.html'; // إعادة التوجيه للصفحة الرئيسية
+            alert(result); // 916 'DF*J,) DDE3*./E
+            window.location.href = 'index.html'; // %9'/) 'D*H,JG DD5A-) 'D1&J3J)
         })
         .catch(error => {
             console.error('Error archiving property:', error);
-            alert('حدث خطأ أثناء الأرشفة.');
+            alert('-/+ .7# #+F'! 'D#14A).');
         });
     }
 }
@@ -456,71 +456,71 @@ function archiveProperty(propertyId) {
 
         const urlParams = new URLSearchParams(window.location.search);
 const propertyId = urlParams.get('propertyId');
-console.log('Property ID:', propertyId); // تحقق مما إذا كان معرّف العقار يظهر هنا
+console.log('Property ID:', propertyId); // *-BB EE' %0' C'F E91QA 'D9B'1 J8G1 GF'
 if (propertyId) {
     fetchPropertyDetails(propertyId);
 } else {
-    document.getElementById('propertyDetails').innerHTML = '<p>معرف العقار غير متوفر.</p>';
+    document.getElementById('propertyDetails').innerHTML = '<p>E91A 'D9B'1 :J1 E*HA1.</p>';
 }
     </script>
 <div class="modal" id="editModal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>تعديل العقار</h2>
-            <button onclick="closeModal()">إغلاق</button>
+            <h2>*9/JD 'D9B'1</h2>
+            <button onclick="closeModal()">%:D'B</button>
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <label>اسم العقار:</label>
+                <label>'3E 'D9B'1:</label>
                 <input type="text" id="editName">
             </div>
             <div class="form-group">
-                <label>نوع العقار:</label>
+                <label>FH9 'D9B'1:</label>
                 <select id="editType" onchange="updateFieldsBasedOnType()">
-                    <option value="شقة">شقة</option>
-                    <option value="فلة">فلة</option>
-                    <option value="دور">دور</option>
-                    <option value="شاليه">شاليه</option>
-                    <option value="أرض">أرض</option>
-                    <option value="مزرعة">مزرعة</option>
-                    <option value="محل">محل</option>
+                    <option value="4B)">4B)</option>
+                    <option value="AD)">AD)</option>
+                    <option value="/H1">/H1</option>
+                    <option value="4'DJG">4'DJG</option>
+                    <option value="#16">#16</option>
+                    <option value="E219)">E219)</option>
+                    <option value="E-D">E-D</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>الموقع:</label>
+                <label>'DEHB9:</label>
                 <input type="text" id="editLocation">
             </div>
             <div class="form-group">
-                <label>رابط الموقع على الخريطة:</label>
+                <label>1'(7 'DEHB9 9DI 'D.1J7):</label>
                 <input type="text" id="editMapLink">
             </div>
             <div class="form-group">
-                <label>الوصف:</label>
+                <label>'DH5A:</label>
                 <textarea id="editDescription"></textarea>
             </div>
             <div class="form-group">
-                <label>عرض الشارع:</label>
+                <label>916 'D4'19:</label>
                 <input type="text" id="editStreetWidth">
             </div>
             <div class="form-group">
-                <label>الواجهة:</label>
+                <label>'DH',G):</label>
                 <input type="text" id="editFacade">
             </div>
             <div id="dynamicFields" class="form-group">
-                <!-- سيتم توليد الحقول الديناميكية هنا بناءً على نوع العقار -->
+                <!-- 3J*E *HDJ/ 'D-BHD 'D/JF'EJCJ) GF' (F'!K 9DI FH9 'D9B'1 -->
             </div>
             <div class="form-group">
-                <label>المرفقات الحالية:</label>
+                <label>'DE1AB'* 'D-'DJ):</label>
                 <div id="currentAttachments"></div>
             </div>
             <div class="form-group">
-                <label>إضافة مرفقات جديدة:</label>
+                <label>%6'A) E1AB'* ,/J/):</label>
                 <input type="file" id="newAttachments" multiple>
                 <div id="uploadStatus"></div>
             </div>
         </div>
         <div class="form-group">
-            <button onclick="saveChanges()">حفظ</button>
+            <button onclick="saveChanges()">-A8</button>
         </div>
     </div>
 </div>

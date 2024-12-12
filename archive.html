@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الأرشيف</title>
+    <title>'D#14JA</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap">
     <style>
         body {
@@ -68,11 +68,11 @@
     </style>
 </head>
 <body>
-    <header>الأرشيف</header>
+    <header>'D#14JA</header>
     <div id="properties" class="properties"></div>
 
     <script>
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbwHJkjTyfOtm1I2uM9DbsoyyZi5leVl3jSu2IJFhXecshvfhI4GRmCwc9CFHzMFUhmV/exec';
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbw2MNBeXvZGvkdwh6DCS9-BhMEkaGZNuqHjihxth_TZaYPH16GtZNjpRiLJoGdEN00/exec';
 
         function fetchArchivedProperties() {
             const url = `${apiUrl}?sheet=Archive&action=getArchivedProperties`;
@@ -81,7 +81,7 @@
                 .then(properties => renderProperties(properties))
                 .catch(error => {
                     console.error('Error fetching archived properties:', error);
-                    document.getElementById('properties').innerHTML = '<p>حدث خطأ أثناء جلب البيانات.</p>';
+                    document.getElementById('properties').innerHTML = '<p>-/+ .7# #+F'! ,D( 'D(J'F'*.</p>';
                 });
         }
 
@@ -92,18 +92,18 @@
                 const card = document.createElement('div');
                 card.className = 'property-card';
                 card.innerHTML = `
-                    <img src="${property.الصور || 'placeholder.jpg'}" alt="${property.اسم_العقار}">
-                    <h3>${property.اسم_العقار}</h3>
-                    <p><strong>الحالة:</strong> 
-                        <select onchange="updatePropertyStatus('${property.معرف_العقار}', this.value)">
-                            <option value="مباع" ${property.الحالة === 'مباع' ? 'selected' : ''}>مباع</option>
-                            <option value="غير متاح" ${property.الحالة === 'غير متاح' ? 'selected' : ''}>غير متاح</option>
+                    <img src="${property.'D5H1 || 'placeholder.jpg'}" alt="${property.'3E_'D9B'1}">
+                    <h3>${property.'3E_'D9B'1}</h3>
+                    <p><strong>'D-'D):</strong> 
+                        <select onchange="updatePropertyStatus('${property.E91A_'D9B'1}', this.value)">
+                            <option value="E('9" ${property.'D-'D) === 'E('9' ? 'selected' : ''}>E('9</option>
+                            <option value=":J1 E*'-" ${property.'D-'D) === ':J1 E*'-' ? 'selected' : ''}>:J1 E*'-</option>
                         </select>
                     </p>
-                    <p><strong>السعر:</strong> ${property.السعر} ريال</p>
-                    <p><strong>رقم الإعلان:</strong> ${property.معرف_العقار}</p>
-                    <p><strong>نوع العقار:</strong> ${property.نوع_العقار}</p>
-                    <p><strong>الموقع:</strong> ${property.الموقع}</p>
+                    <p><strong>'D391:</strong> ${property.'D391} 1J'D</p>
+                    <p><strong>1BE 'D%9D'F:</strong> ${property.E91A_'D9B'1}</p>
+                    <p><strong>FH9 'D9B'1:</strong> ${property.FH9_'D9B'1}</p>
+                    <p><strong>'DEHB9:</strong> ${property.'DEHB9}</p>
                 `;
                 container.appendChild(card);
             });
@@ -122,13 +122,13 @@
     })
     .then(response => response.text())
     .then(result => {
-        console.log(result); // طباعة النتيجة للتأكد من نجاح التحديث
-        alert('تم تحديث الحالة بنجاح');
-        fetchArchivedProperties(); // إعادة تحميل البيانات بعد التحديث
+        console.log(result); // 7('9) 'DF*J,) DD*#C/ EF F,'- 'D*-/J+
+        alert('*E *-/J+ 'D-'D) (F,'-');
+        fetchArchivedProperties(); // %9'/) *-EJD 'D(J'F'* (9/ 'D*-/J+
     })
     .catch(error => {
         console.error('Error updating property status:', error);
-        alert('حدث خطأ أثناء تحديث الحالة.');
+        alert('-/+ .7# #+F'! *-/J+ 'D-'D).');
     });
 }
 
