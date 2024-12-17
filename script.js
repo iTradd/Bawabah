@@ -1,2 +1,2 @@
 // الرابط الجديد الخاص بـ Cloudflare Worker
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbytyD2c13GL2pjaLgOF8kvxUldNMQrQqCNCiudet_0McPzAWkLpPccbQqm3uBCNwpgZ/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwkA5hilvoufazAMUEmr80uhw1k8KmebOT6rQ36nY4PUBeHtPtS-ZIfR2pl8Zkopkl/exec';
