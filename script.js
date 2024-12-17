@@ -1,4 +1,2 @@
-const apiUrl = 'https://script.google.com/macros/s/AKfycbxJ_dBo6dxk14hDkDi26eQjKI6MNjuxNqjYmMPXqS65JOAoUQLzkP8tWiq67lXZPySy/exec';
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxJ_dBo6dxk14hDkDi26eQjKI6MNjuxNqjYmMPXqS65JOAoUQLzkP8tWiq67lXZPySy/exec';
-
-
+// الرابط الجديد الخاص بـ Cloudflare Worker
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbytyD2c13GL2pjaLgOF8kvxUldNMQrQqCNCiudet_0McPzAWkLpPccbQqm3uBCNwpgZ/exec';

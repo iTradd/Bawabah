@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة مرفقات العقار</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script src="script.js"></script> <!-- استيراد ملف apiUrl -->
+    <style>
+        /* خطوط */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap');
+
+        /* إعدادات عامة */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: #F9FAFB;
+            color: #333;
+            direction: rtl;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #F96E2A, #FB8C3E);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+       
+
+        /* إعدادات عامة للبطاقات */
+        /* حاوية البطاقات */
+.properties-container {
+    display: flex;
+    flex-wrap: wrap; /* جعل العناصر تلتف إلى الصف التالي إذا لم تكفِ المساحة */
+    justify-content: center; /* محاذاة البطاقات في المنتصف */
+}
+        
+.property-card {
+    width: 172px; /* عرض أصغر للبطاقة */
+    height: 260px; /* تقليل الارتفاع */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    margin: 5px; /* مسافة صغيرة بين البطاقات */
+}
+
+.property-card:hover {
+    transform: scale(1.05); /* تأثير عند التمرير */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* صورة العقار داخل البطاقة */
+.property-card .property-image img {
+    width: 100%;
+    height: 120px; /* تقليل ارتفاع الصورة */
+    object-fit: cover;
+}
+
+/* تفاصيل العقار داخل البطاقة */
+.property-card .property-details {
+    padding: 10px;
+    text-align: center;
+}
+
+.property-card .property-details h3 {
+    font-size: 14px; /* حجم أصغر للعناوين */
+    color: #F96E2A;
+    margin-bottom: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.property-card .property-details p {
+    font-size: 12px; /* تصغير النصوص */
+    color: #555;
+    margin: 2px 0;
+}
+
+/* أيقونات داخل البطاقات */
+.icon-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.icon-item {
+    font-size: 12px;
+    text-align: center;
+    color: #333;
+}
+
+.icon-item span {
+    display: block;
+    font-size: 18px; /* أيقونات أصغر */
+    color: #F96E2A;
+    margin-bottom: 2px;
+}
+
+        /* تنسيق قسم المرفقات */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #F96E2A;
+            font-size: 27px;
+            margin-bottom: 15px;
+        }
+
+        .upload-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px dashed #B0BEC5;
+            border-radius: 10px;
+            background: #E3F2FD;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .upload-box:hover {
+            background: #FFF;
+            border-color: #78B3CE;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .upload-box span {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* زر التحميل */
+        .upload-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #F96E2A;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #FB8C3E;
+        }
+
+        /* عرض قائمة المرفقات */
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        .file-item span {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .file-item button {
+            background: #E94E1B;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .file-item button:hover {
+            background: #B71C1C;
+        }
+            .icon-container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .icon-item {
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .icon-item span {
+            display: block;
+            font-size: 28px;
+            color: #F96E2A;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>إدارة مرفقات العقار</header>
+
+    <div class="container">
+        <h2>اختيار العقار</h2>
+<div id="propertiesContainer" class="properties-container">
+            <!-- سيتم عرض بطاقات العقارات هنا -->
+        </div>
+
+        <div class="container">
+        <!-- قسم صورة العرض -->
+<div id="attachmentsContainer" style="display: none;">
+    <!-- قسم صورة العرض -->
+    <div class="section">
+        <h2>صورة العرض</h2>
+        <label class="upload-box">
+            <input type="file" id="coverImageInput">
+            <span>اختر صورة العرض</span>
+        </label>
+        <button class="upload-btn" onclick="uploadCoverImage()">تحديث صورة العرض</button>
+    </div>
+
+    <!-- قسم المرفقات الأخرى -->
+    <div class="section">
+        <h2>المرفقات الأخرى</h2>
+        <label class="upload-box">
+            <input type="file" id="attachmentsInput" multiple>
+            <span>اختر الملفات</span>
+        </label>
+        <button class="upload-btn" onclick="uploadOtherAttachments()">تحميل المرفقات</button>
+    </div>
+
+    <!-- قائمة المرفقات -->
+    <div class="file-list" id="fileList">
+        <!-- سيتم عرض المرفقات هنا -->
+    </div>
+</div>
+    </div>
+    </div>
+
+    <script>
+        let currentPropertyId = null;
+
+        // جلب قائمة العقارات
+       function fetchProperties() {
+    fetch(`${apiUrl}?action=getProperties&sheet=Real_Estate`)
+        .then(response => response.json())
+        .then(data => {
+            const propertiesContainer = document.getElementById('propertiesContainer');
+            propertiesContainer.innerHTML = '';
+
+            data.forEach(property => {
+                const card = document.createElement('div');
+                card.classList.add('property-card');
+                card.onclick = () => selectProperty(property.معرف_العقار);
+                card.innerHTML = `
+                    <div class="property-image">
+                        <img src="${property.صورة_العرض || 'images/default-image.jpg'}" alt="${property.اسم_العقار}">
+                    </div>
+                    <div class="property-details">
+                        <h3>${property.اسم_العقار || 'اسم العقار غير متوفر'}</h3>
+                        <div class="icon-container">
+                            <div class="icon-item">
+                                <span class="material-symbols-rounded">home_work</span>
+                                <p>${property.نوع_العقار || 'غير محدد'}</p>
+                            </div>
+                            <div class="icon-item">
+                                <span class="material-symbols-rounded">pin</span>
+                                <p>${property.معرف_العقار || 'N/A'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                propertiesContainer.appendChild(card);
+            });
+        })
+        .catch(error => console.error('Error fetching properties:', error));
+}
+
+
+        // اختيار العقار
+        function selectProperty(propertyId) {
+    currentPropertyId = propertyId;
+    // عرض الأقسام عند اختيار العقار
+    document.getElementById('attachmentsContainer').style.display = 'block';
+    // جلب المرفقات للعقار المحدد
+    fetchAttachments();
+}
+        // جلب المرفقات
+        function fetchAttachments() {
+            fetch(`${apiUrl}?action=getAttachments&sheet=Real_Estate&propertyId=${currentPropertyId}`)
+                .then(response => response.json())
+                .then(data => {
+            // صورة العرض
+            const coverImageContainer = document.getElementById('coverImage');
+            coverImageContainer.innerHTML = data.cover
+                ? `<img src="${data.cover}" alt="صورة العرض" style="width: 100%; max-height: 200px;">`
+                : 'لا توجد صورة عرض';
+
+
+                    // المرفقات الأخرى
+const otherAttachments = document.getElementById('fileList');
+            otherAttachments.innerHTML = '';
+            data.attachments.forEach((attachment, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item');
+                fileItem.innerHTML = `
+                            <span>${attachment}</span>
+                            <button onclick="deleteAttachment(${index})">حذف</button>
+                        `;
+                        otherAttachments.appendChild(fileItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching attachments:', error));
+        }
+
+        // تحديث صورة العرض
+        function uploadCoverImage() {
+            const file = document.getElementById('coverInput').files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('action', 'uploadCoverImage');
+            formData.append('propertyId', currentPropertyId);
+
+            fetch(apiUrl, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('تم تحديث صورة العرض بنجاح');
+                        fetchAttachments();
+                    } else {
+                        alert(`خطأ: ${data.message}`);
+                    }
+                })
+                .catch(error => console.error('Error uploading cover image:', error));
+        }
+
+        // تحميل مرفقات أخرى
+        function uploadOtherAttachments() {
+            const files = document.getElementById('attachmentsInput').files;
+            const formData = new FormData();
+            Array.from(files).forEach(file => formData.append('files[]', file));
+            formData.append('action', 'uploadOtherAttachments');
+            formData.append('propertyId', currentPropertyId);
+
+            fetch(apiUrl, { method: 'POST', body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('تم تحميل المرفقات بنجاح');
+                        fetchAttachments();
+                    } else {
+                        alert(`خطأ: ${data.message}`);
+                    }
+                })
+                .catch(error => console.error('Error uploading other attachments:', error));
+        }
+
+        // حذف مرفق
+        function deleteAttachment(index) {
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'deleteAttachment',
+                    propertyId: currentPropertyId,
+                    attachmentIndex: index,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('تم حذف المرفق بنجاح');
+                        fetchAttachments();
+                    } else {
+                        alert(`خطأ: ${data.message}`);
+                    }
+                })
+                .catch(error => console.error('Error deleting attachment:', error));
+        }
+
+        fetchProperties();
+    </script>
+</body>
+</html>

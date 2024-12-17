@@ -92,7 +92,7 @@
                 const card = document.createElement('div');
                 card.className = 'property-card';
                 card.innerHTML = `
-                    <img src="${property.الصور || 'placeholder.jpg'}" alt="${property.اسم_العقار}">
+                    <img src="${property.صورة_العرض || 'placeholder.jpg'}" alt="${property.اسم_العقار}">
                     <h3>${property.اسم_العقار}</h3>
                     <p><strong>الحالة:</strong> 
                         <select onchange="updatePropertyStatus('${property.معرف_العقار}', this.value)">
@@ -109,28 +109,33 @@
             });
         }
 
-        function updatePropertyStatus(propertyId, newStatus) {
+function updatePropertyStatus(propertyId, newStatus) {
     fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
             action: 'updateStatus',
             sheet: 'Archive',
             propertyId: propertyId,
             newStatus: newStatus
         })
     })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(result => {
         console.log(result); // طباعة النتيجة للتأكد من نجاح التحديث
-        alert('تم تحديث الحالة بنجاح');
-        fetchArchivedProperties(); // إعادة تحميل البيانات بعد التحديث
+        if (result.status === 'success') {
+            alert('تم تحديث الحالة بنجاح');
+            fetchArchivedProperties(); // إعادة تحميل البيانات بعد التحديث
+        } else {
+            alert(`خطأ: ${result.message}`);
+        }
     })
     .catch(error => {
         console.error('Error updating property status:', error);
         alert('حدث خطأ أثناء تحديث الحالة.');
     });
 }
+
 
         fetchArchivedProperties();
     </script>

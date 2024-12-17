@@ -248,6 +248,7 @@
             </circle>
         </svg>
     </div>
+    
 
     <script>
 
@@ -256,7 +257,7 @@
     loadingIndicator.style.display = 'block';
 
     const url = `${apiUrl}?action=getProperties&sheet=Real_Estate&query=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}`;
-    fetch(url, { mode: 'cors' })
+    fetch(url)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -294,7 +295,7 @@
         card.innerHTML = `
             <div class="property-image">
                 <a href="propertyDetails.html?propertyId=${property.معرف_العقار}">
-                    <img src="${property.الصور || 'default-image.jpg'}" alt="${property.نوع_العقار}">
+                    <img src="${property.صورة_العرض || 'images/default-image.jpg'}" alt="${property.نوع_العقار}">
                 </a>
             </div>
             <div class="property-details">

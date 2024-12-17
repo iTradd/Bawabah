@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إدارة العقارات</title>
@@ -53,14 +54,16 @@
             margin-bottom: 5px;
         }
 
-        .form-group input,
         .form-group select,
+        .form-group input,
         .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #B0BEC5;
-            border-radius: 10px;
-            font-size: 14px;
+              width: 100%; /* نفس عرض الحقول النصية */
+    padding: 10px; /* نفس الحشوة الداخلية */
+    border: 1px solid #B0BEC5; /* نفس الحدود */
+    border-radius: 10px; /* نفس الزوايا */
+    font-size: 14px; /* نفس حجم النص */
+    height: auto; /* لضبط الارتفاع تلقائيًا حسب الحشو */
+    box-sizing: border-box; /* ليشمل الحشو والحدود في العرض */
         }
 
         .form-group textarea {
@@ -82,32 +85,167 @@
         #dynamicFields {
             margin-top: 15px;
         }
+        
+    .upload-box {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap; /* السماح بتعدد الصفوف */
+    padding: 43px;
+    border: 2px dashed #B0BEC5;
+    border-radius: 10px;
+    background: #E3F2FD;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+    position: relative;
+}
+
+.image-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+       
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-container .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+        
+.upload-box img {
+    max-width: 100%; /* الحد الأقصى لعرض الصورة */
+    max-height: 100%; /* الحد الأقصى لارتفاع الصورة */
+    object-fit: contain; /* احتواء الصورة بالكامل */
+}
+
+.upload-box:hover {
+    background: #FFF;
+    border-color: #78B3CE;
+}
+
+.upload-box input {
+    display: none;
+}
+
+.upload-box span {
+    font-size: 16px;
+    color: #555;
+    position: absolute; /* لجعل النص في الوسط حتى يتم استبداله */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.image-preview {
+    display: flex;
+    flex-wrap: wrap; /* السماح بتعدد الصفوف */
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+
+.image-preview .image-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview .close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+        
+.add-attachment {
+    width: 100px;
+    height: 100px;
+    background: #d2f1ff;
+    border: 2px dashed #78B3CE;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.add-attachment span {
+    font-size: 24px; /* حجم علامة "+" */
+    color: #7897ce; /* لون علامة "+" */
+    font-weight: bold; /* خط عريض */
+    text-align: center; /* محاذاة في المنتصف */
+}
+
+        #coverImageBox {
+    cursor: pointer; /* لجعل المربع يظهر كأنه قابل للنقر */
+}
+
     </style>
 </head>
 <body>
     <header>إدارة العقارات</header>
 
-    <div class="property-form">
-        <h3>إضافة عقار جديد</h3>
-        <form id="propertyForm">
-            <div class="form-group">
-                <label for="propertyName">اسم العقار:</label>
-                <input type="text" id="propertyName" name="name" placeholder="اسم العقار" required>
-            </div>
-            <div class="form-group">
-                <label for="propertyType">نوع العقار:</label>
-                <select id="propertyType" name="type" required onchange="updateDynamicFields()">
-                    <option value="">اختر نوع العقار</option>
-                    <option value="شقة">شقة</option>
-                    <option value="فلة">فلة</option>
-                    <option value="دور">دور</option>
-                    <option value="شاليه">شاليه</option>
-                    <option value="أرض">أرض</option>
-                    <option value="مزرعة">مزرعة</option>
-                    <option value="محل">محل</option>
-                </select>
-            </div>
-            <div class="form-group">
+<div class="property-form">
+    <h3>إضافة عقار جديد</h3>
+    <form id="propertyForm">
+        <div class="form-group">
+            <label for="propertyName">اسم العقار:</label>
+            <input type="text" id="propertyName" name="name" placeholder="اسم العقار" required>
+        </div>
+        <div class="form-group">
+            <label for="propertyType">نوع العقار:</label>
+            <select id="propertyType" name="type" required onchange="updateDynamicFields()">
+                <option value="">اختر نوع العقار</option>
+                <option value="شقة">شقة</option>
+                <option value="فلة">فلة</option>
+                <option value="دور">دور</option>
+                <option value="شاليه">شاليه</option>
+                <option value="أرض">أرض</option>
+                <option value="مزرعة">مزرعة</option>
+                <option value="محل">محل</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="ownerName">اسم المالك:</label>
             <input type="text" id="ownerName" name="ownerName" placeholder="اسم المالك" required>
         </div>
@@ -115,112 +253,356 @@
             <label for="ownerContact">جوال المالك:</label>
             <input type="text" id="ownerContact" name="ownerContact" placeholder="جوال المالك" required>
         </div>
-            <div class="form-group">
-                <label for="propertyLocation">الموقع:</label>
-                <input type="text" id="propertyLocation" name="location" placeholder="الموقع" required>
-            </div>
-<div class="form-group">
-    <label for="mapLocation">رابط الموقع الجغرافي:</label>
-    <input type="text" id="mapLocation" name="mapLocation" placeholder="لصق رابط الموقع من Google Maps ">
-</div>
-
-            <div class="form-group">
-                <label for="propertyDescription">الوصف:</label>
-                <textarea id="propertyDescription" name="description" placeholder="الوصف"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="propertyArea">المساحة:</label>
-                <input type="number" id="propertyArea" name="area" placeholder="المساحة بالمتر المربع" required>
-            </div>
-            <div class="form-group">
-                <label for="streetWidth">عرض الشارع:</label>
-                <input type="number" id="streetWidth" name="streetWidth" placeholder="عرض الشارع بالمتر">
-            </div>
-            <div class="form-group">
-                <label for="propertyFront">الواجهة:</label>
-                <input type="text" id="propertyFront" name="front" placeholder="الواجهة (شمالية، جنوبية...)">
-            </div>
-            <div id="dynamicFields"></div>
-            <div class="form-group">
-    <label for="attachments">المرفقات (صور أو فيديوهات):</label>
-    <input type="file" id="attachments" name="attachments" multiple accept="image/*,video/*">
-    <small>يمكنك تحميل أكثر من ملف. الصورة الأولى ستكون صورة العقار الرئيسية.</small>
-</div>
-
-            <div class="form-group">
-                <button type="submit">حفظ العقار</button>
-            </div>
-        </form>
+        <div class="form-group">
+            <label for="propertyLocation">الموقع:</label>
+            <input type="text" id="propertyLocation" name="location" placeholder="الموقع" required>
+        </div>
+        <div class="form-group">
+            <label for="mapLocation">رابط الموقع الجغرافي:</label>
+            <input type="text" id="mapLocation" name="mapLocation" placeholder="لصق رابط الموقع من Google Maps ">
+        </div>
+        <div class="form-group">
+            <label for="propertyDescription">الوصف:</label>
+            <textarea id="propertyDescription" name="description" placeholder="الوصف"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="propertyArea">المساحة:</label>
+            <input type="text" id="propertyArea" name="area" placeholder="المساحة بالمتر المربع" required>
+        </div>
+        <div class="form-group">
+            <label for="streetWidth">عرض الشارع:</label>
+            <input type="text" id="streetWidth" name="streetWidth" placeholder="عرض الشارع بالمتر">
+        </div>
+        <div class="form-group">
+            <label for="propertyFront">الواجهة:</label>
+            <input type="text" id="propertyFront" name="front" placeholder="الواجهة (شمالية، جنوبية...)">
+        </div>
+        
+       <div class="form-group">
+    <label>صورة العرض:</label>
+    <div class="upload-box" id="coverImageBox">
+        <input type="file" id="coverImage" accept="image/*" style="display: none;">
+        <span>اختر صورة عرض</span>
     </div>
+</div>
+        
+        <div class="form-group">
+            <label>المرفقات:</label>
+            <div class="upload-box">
+                <div id="attachmentsPreview" class="image-preview">
+                    <!-- المرفقات المصغرة ستضاف هنا -->
+                    <div class="add-attachment" onclick="document.getElementById('attachments').click()">
+                        <span>+ </span>
+                        <input type="file" id="attachments" multiple accept="image/*,video/*" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dynamicFields"></div>
+        <div class="form-group">
+            <button type="submit">حفظ العقار</button>
+        </div>
+    </form>
+</div>
+
 
     <script>
 
-        // تحديث الحقول الديناميكية
+ // تحديث الحقول الديناميكية
         function updateDynamicFields() {
-            const propertyType = document.getElementById('propertyType').value;
-            const dynamicFields = document.getElementById('dynamicFields');
-            dynamicFields.innerHTML = ''; // تفريغ الحقول السابقة
+    const propertyType = document.getElementById('propertyType').value;
+    const dynamicFields = document.getElementById('dynamicFields');
+    dynamicFields.innerHTML = '';
 
-            if (['شقة', 'فلة', 'دور', 'شاليه'].includes(propertyType)) {
-                dynamicFields.innerHTML = `
-                    <div class="form-group">
-                        <label for="rooms">عدد الغرف:</label>
-                        <input type="number" id="rooms" name="rooms" placeholder="عدد الغرف">
-                    </div>
-                    <div class="form-group">
-                        <label for="bathrooms">عدد الحمامات:</label>
-                        <input type="number" id="bathrooms" name="bathrooms" placeholder="عدد الحمامات">
-                    </div>`;
-            } else if (['أرض', 'مزرعة'].includes(propertyType)) {
-                dynamicFields.innerHTML = `
-                    <div class="form-group">
-                        <label for="usage">استخدام العقار:</label>
-                        <input type="text" id="usage" name="usage" placeholder="استخدام العقار (سكني، تجاري...)">
-                    </div>
-                    <div class="form-group">
-                        <label for="streetCount">عدد الشوارع المحيطة:</label>
-                        <input type="number" id="streetCount" name="streetCount" placeholder="عدد الشوارع المحيطة">
-                    </div>`;
-            } else if (propertyType === 'محل') {
-                dynamicFields.innerHTML = `
-                    <div class="form-group">
-                        <label for="shopArea">مساحة المحل:</label>
-                        <input type="number" id="shopArea" name="shopArea" placeholder="مساحة المحل بالمتر المربع">
-                    </div>
-                    <div class="form-group">
-                        <label for="openings">عدد الفتحات:</label>
-                        <input type="number" id="openings" name="openings" placeholder="عدد الفتحات">
-                    </div>`;
-            }
+    if (['شقة', 'فلة', 'دور', 'شاليه'].includes(propertyType)) {
+        dynamicFields.innerHTML = `
+            <div class="form-group">
+                <label for="rooms">عدد الغرف:</label>
+                <input type="text" id="rooms" name="rooms" placeholder="عدد الغرف" required>
+            </div>
+            <div class="form-group">
+                <label for="bathrooms">عدد الحمامات:</label>
+                <input type="text" id="bathrooms" name="bathrooms" placeholder="عدد الحمامات" required>
+            </div>`;
+    } else if (['أرض', 'مزرعة'].includes(propertyType)) {
+        dynamicFields.innerHTML = `
+            <div class="form-group">
+                <label for="usage">استخدام العقار:</label>
+                <input type="text" id="usage" name="usage" placeholder="استخدام العقار" required>
+            </div>
+            <div class="form-group">
+                <label for="streetCount">عدد الشوارع:</label>
+                <input type="text" id="streetCount" name="streetCount" placeholder="عدد الشوارع" required>
+            </div>`;
+    } else if (propertyType === 'محل') {
+        dynamicFields.innerHTML = `
+            <div class="form-group">
+                <label for="shopArea">مساحة المحل:</label>
+                <input type="text" id="shopArea" name="shopArea" placeholder="المساحة بالمتر المربع" required>
+            </div>
+            <div class="form-group">
+                <label for="openings">عدد الفتحات:</label>
+                <input type="text" id="openings" name="openings" placeholder="عدد الفتحات" required>
+            </div>`;
+    }
+}
+
+        // تهيئة صورة العرض
+function initializeCoverImageBox() {
+    const coverImageBox = document.getElementById('coverImageBox');
+    const fileInput = document.getElementById('coverImage');
+
+    if (!coverImageBox || !fileInput) {
+        console.error("العناصر المطلوبة غير موجودة: coverImageBox أو fileInput");
+        return; // وقف التنفيذ إذا كان أحد العناصر غير موجود
+    }
+
+    // إعادة التهيئة الافتراضية
+    coverImageBox.innerHTML = '<span>اختر صورة عرض</span>';
+
+    // فتح نافذة اختيار الملف عند النقر
+    coverImageBox.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // معالجة اختيار الملف وعرض الصورة
+    fileInput.addEventListener('change', () => {
+        if (!fileInput.files || fileInput.files.length === 0) {
+            console.warn("لم يتم اختيار أي ملف.");
+            return;
         }
 
-        // معالجة النموذج
-        document.getElementById('propertyForm').addEventListener('submit', function (e) {
+        const file = fileInput.files[0];
+        if (!file || !file.type.startsWith('image/')) {
+            alert("يرجى اختيار صورة فقط.");
+            fileInput.value = ''; // إعادة ضبط الإدخال
+            return;
+        }
+
+        // قراءة وعرض الصورة
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            coverImageBox.innerHTML = `
+                <div class="image-container">
+                    <img src="${e.target.result}" alt="صورة العرض">
+                    <button class="close-btn">&times;</button>
+                </div>`;
+
+            // زر الحذف لإعادة التهيئة
+            coverImageBox.querySelector('.close-btn').addEventListener('click', () => {
+                fileInput.value = '';
+                initializeCoverImageBox(); // إعادة التهيئة
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    initializeCoverImageBox();
+});
+
+
+        // تهيئة الأحداث عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            const propertyType = document.getElementById('propertyType');
+            propertyType.addEventListener('change', updateDynamicFields);
+            updateDynamicFields(); // استدعاء أولي عند تحميل الصفحة
+        });
+// 
+       // رفع الملفات إلى Cloudinary
+        async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'ml_default');
+    const response = await fetch('https://api.cloudinary.com/v1_1/dm3hmrjvi/image/upload', { method: 'POST', body: formData });
+            
+            if (!response.ok) {
+        throw new Error("Failed to upload file to Cloudinary. Status: " + response.status);
+    }
+            
+    return (await response.json()).secure_url;
+}
+
+// رفع المرفقات إلى Cloudinary
+async function handleAttachmentsUpload(inputElement) {
+    const files = Array.from(inputElement.files);
+    const urls = [];
+    for (const file of files) urls.push(await uploadToCloudinary(file));
+    return urls;
+}
+
+        
+// للمرفقات
+// حدث تغيير المرفقات
+document.getElementById('attachments').addEventListener('change', function () {
+    const attachmentsPreview = document.getElementById('attachmentsPreview');
+    const addButton = document.querySelector('.add-attachment');
+
+    // إضافة المرفقات الجديدة فقط دون تفريغ القائمة الحالية
+    for (let file of this.files) {
+        // التحقق من نوع الملف
+        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+            alert('يمكنك اختيار صور أو فيديوهات فقط.');
+            continue;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const container = document.createElement('div');
+            container.classList.add('image-container');
+            container.innerHTML = `
+                <img src="${e.target.result}" alt="مرفق">
+                <button class="close-btn">&times;</button>
+            `;
+
+            // إدراج المرفق الجديد قبل زر "+"
+            attachmentsPreview.insertBefore(container, addButton);
+
+            // حدث حذف المرفق
+            container.querySelector('.close-btn').addEventListener('click', function () {
+                container.remove(); // حذف العنصر
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // إعادة تعيين الملفات المحددة بعد الإضافة
+    this.value = '';
+});
+
+
+
+
+// رفع الملفات إلى Cloudinary
+// رفع المرفقات إلى Cloudinary
+async function handleAttachmentsUpload(inputElement) {
+    const files = Array.from(inputElement.files);
+    const attachmentUrls = [];
+
+    for (const file of files) {
+        const url = await uploadToCloudinary(file); // رفع الملف والحصول على الرابط
+        attachmentUrls.push(url);
+    }
+    return attachmentUrls; // إرجاع روابط المرفقات كـ Array
+}
+
+
+// عند رفع صورة العرض
+async function handleCoverImageUpload(inputElement) {
+    const file = inputElement.files[0];
+    if (!file) return null;
+
+    try {
+        const url = await uploadToCloudinary(file);
+        console.log('تم رفع صورة العرض:', url);
+        return url;
+    } catch (error) {
+        console.error('فشل رفع صورة العرض:', error);
+        return null;
+    }
+}
+
+async function handleAttachmentsUpload(inputElement) {
+    const files = Array.from(inputElement.files);
+    const attachmentUrls = [];
+
+    for (const file of files) {
+        try {
+            const url = await uploadToCloudinary(file);
+            attachmentUrls.push(url);
+        } catch (error) {
+            console.error('فشل رفع مرفق:', error);
+        }
+    }
+
+    console.log('تم رفع المرفقات:', attachmentUrls);
+    return attachmentUrls;
+}
+        
+// عند إرسال النموذج
+document.getElementById('propertyForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
-    const files = document.getElementById('attachments').files;
+    const data = Object.fromEntries(formData.entries());
 
-    // إضافة الملفات إلى FormData
-    for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
+    // تحديد الإجراء المرسل
+    data.action = 'addProperty';
+    data.sheet = 'Real_Estate';
+
+    try {
+        // التحقق من وجود صورة العرض ورفعها إلى Cloudinary
+        const coverImageInput = document.getElementById('coverImage');
+        if (coverImageInput && coverImageInput.files.length > 0) {
+            data.coverImage = await uploadToCloudinary(coverImageInput.files[0]);
+        }
+
+        // التحقق من وجود مرفقات ورفعها إلى Cloudinary
+        const attachmentsInput = document.getElementById('attachments');
+        if (attachmentsInput && attachmentsInput.files.length > 0) {
+            const attachmentUrls = await handleAttachmentsUpload(attachmentsInput);
+            data.attachments = attachmentUrls.join(', '); // دمج الروابط في نص واحد
+        }
+
+        // إرسال البيانات النصية وروابط الصور إلى Google Apps Script
+        const response = await fetch(GOOGLE_SCRIPT_URL, { // رابط Google Script
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            alert('تم حفظ العقار بنجاح!');
+            this.reset(); // إعادة تعيين النموذج
+            initializeCoverImageBox();
+            document.getElementById('attachmentsPreview').innerHTML = '';
+        } else {
+            alert('فشل الحفظ: ' + result.message);
+        }
+    } catch (error) {
+        console.error('خطأ أثناء الحفظ:', error);
+        alert('حدث خطأ أثناء الحفظ.');
     }
-
-    const propertyData = Object.fromEntries(formData.entries());
-    propertyData.id = `prop-${Date.now()}`; // إنشاء معرف فريد تلقائي
-
-    fetch(`${apiUrl}?action=addPropertyWithFiles`, {
-        method: 'POST',
-        body: formData // رفع الملفات مع البيانات
-    })
-        .then(response => response.text())
-        .then(result => {
-            alert('تم حفظ العقار والمرفقات بنجاح!');
-            this.reset();
-        })
-        .catch(error => console.error('Error:', error));
 });
 
+
+        // عرض صورة مصغرة لصورة العرض
+function handleFileUpload(inputElement, previewContainer, isMultiple = false) {
+    const files = inputElement.files;
+    if (!files.length) return;
+
+    if (!isMultiple) {
+        previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
+    }
+
+    for (const file of files) {
+        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+            alert('يرجى اختيار صور أو فيديوهات فقط.');
+            continue;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const container = document.createElement('div');
+            container.classList.add('image-container');
+            container.innerHTML = `
+                <img src="${e.target.result}" alt="ملف">
+                <button class="close-btn">&times;</button>
+            `;
+            previewContainer.appendChild(container);
+
+            container.querySelector('.close-btn').addEventListener('click', function () {
+                container.remove(); // حذف العنصر
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+
+        
     </script>
 </body>
 </html>
