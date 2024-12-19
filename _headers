@@ -1,2 +1,2 @@
 /*
-  Content-Security-Policy: script-src 'self' https://res.cloudinary.com;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.cloudinary.com blob:; img-src 'self' data: https://res.cloudinary.com https://api.cloudinary.com; connect-src https://api.cloudinary.com;
