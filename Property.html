@@ -10,7 +10,7 @@
     <!-- استيراد ملف الأنماط -->
     <link rel="stylesheet" href="styles.css">
     <!-- استيراد ملف JavaScript -->
-    <script src="scripts.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>إدارة العقارات</header>
@@ -72,15 +72,12 @@
             <input type="text" id="propertyFront" name="front" placeholder="الواجهة (شمالية، جنوبية...)">
         </div>
         
-       <div class="form-group">
-    <label>صورة العرض:</label>
-    <div class="upload-box" id="coverImageBox">
-        <!-- مربع "+" -->
-        <div class="add-attachment">
-            <span>+</span>
-        </div>
-        <input type="file" id="coverImage" accept="image/*" style="display: none;">
+      <div class="upload-box" id="coverImageBox" onclick="document.getElementById('coverImage').click()">
+    <!-- مربع "+" -->
+    <div class="add-attachment">
+        <span>+</span>
     </div>
+    <input type="file" id="coverImage" accept="image/*" style="display: none;">
 </div>
         
         <div class="form-group">
