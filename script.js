@@ -90,42 +90,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        files.forEach((file, index) => {
+        files.forEach((file) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const container = document.createElement("div");
                 container.classList.add("image-container");
                 container.innerHTML = `
                     <img src="${e.target.result}" alt="معاينة">
-                    <button class="close-btn" data-index="${index}">&times;</button>
+                    <button class="close-btn">&times;</button>
                 `;
                 previewContainer.insertBefore(container, previewContainer.querySelector(".add-attachment"));
 
                 // حذف المرفق عند النقر على الزر
                 container.querySelector(".close-btn").addEventListener("click", () => {
                     container.remove();
-                    inputElement.files = removeFileFromList(inputElement.files, index);
                 });
             };
             reader.readAsDataURL(file);
         });
-
-        // التأكد من وجود مربع الإضافة
-        if (!previewContainer.querySelector(".add-attachment")) {
-            const addAttachmentBox = document.createElement("div");
-            addAttachmentBox.classList.add("add-attachment");
-            addAttachmentBox.innerHTML = `<span>+ </span>`;
-            previewContainer.appendChild(addAttachmentBox);
-        }
-    }
-
-    // إزالة ملف معين من قائمة الملفات
-    function removeFileFromList(fileList, indexToRemove) {
-        const dt = new DataTransfer();
-        Array.from(fileList).forEach((file, index) => {
-            if (index !== indexToRemove) dt.items.add(file);
-        });
-        return dt.files;
     }
 
     let coverUrl = "";
@@ -141,13 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عند رفع المرفقات
     if (attachmentsInput) {
-        const addAttachmentButton = document.querySelector(".add-attachment span");
-        if (addAttachmentButton) {
-            addAttachmentButton.addEventListener("click", () => {
-                attachmentsInput.click();
-            });
-        }
-
         attachmentsInput.addEventListener("change", function () {
             const previewContainer = document.getElementById("attachmentsPreview");
             previewFiles(this, previewContainer);
@@ -185,15 +160,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // رفع صورة العرض
             if (coverImageInput.files.length > 0) {
-                const coverUrl = await uploadToCloudinary(coverImageInput.files[0]);
-                if (coverUrl) data.coverImage = coverUrl;
+                const coverUploadedUrl = await uploadToCloudinary(coverImageInput.files[0]);
+                if (coverUploadedUrl) data.coverImage = coverUploadedUrl;
             }
 
             // رفع المرفقات
             if (attachmentsInput.files.length > 0) {
-                const attachmentUrls = [];
+                const uploadedAttachmentUrls = [];
                 for (const file of attachmentsInput.files) {
                     const url = await uploadToCloudinary(file);
-                    if (url) attachmentUrls.push(url);
+                    if (url) uploadedAttachmentUrls.push(url);
                 }
-                data.attachments = attachment
+                data.attachments = uploadedAttachmentUrls.join(",");
+            }
+
+            console.log("Final Data to Server:", data);
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("تم حفظ العقار بنجاح!");
+                } else {
+                    alert("فشل الحفظ: " + result.message);
+                }
+            } catch (error) {
+                console.error("خطأ أثناء حفظ البيانات:", error.message);
+                alert("حدث خطأ أثناء حفظ البيانات.");
+            }
+        });
+    }
+});
