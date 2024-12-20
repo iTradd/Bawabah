@@ -123,6 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عند رفع المرفقات
     if (attachmentsInput) {
+        const addAttachmentButton = document.querySelector(".add-attachment");
+        if (addAttachmentButton) {
+            addAttachmentButton.addEventListener("click", () => {
+                attachmentsInput.click(); // فتح نافذة رفع الملفات
+            });
+        }
+
         attachmentsInput.addEventListener("change", function () {
             const previewContainer = document.getElementById("attachmentsPreview");
             previewFiles(this, previewContainer);
