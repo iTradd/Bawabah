@@ -91,8 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         coverImageInput.addEventListener("change", function () {
-            const previewContainer = document.getElementById("coverImageBox");
-            previewFiles(this, previewContainer);
+            if (this.files.length > 0) {
+                const previewContainer = document.getElementById("coverImageBox");
+                previewFiles(this, previewContainer);
+            }
         });
     }
 
@@ -105,7 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         attachmentsInput.addEventListener("change", function () {
-            previewFiles(this, attachmentsPreview);
+            if (this.files.length > 0) {
+                previewFiles(this, attachmentsPreview);
+            }
         });
     }
 
