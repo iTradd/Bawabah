@@ -49,7 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const coverImageInput = document.getElementById("coverImage");
     const attachmentsInput = document.getElementById("attachments");
-    const form = document.getElementById("propertyForm");
+    const coverImageBox = document.getElementById("coverImageBox");
+    const attachmentsPreview = document.getElementById("attachmentsPreview");
+    const addAttachmentBox = attachmentsPreview.querySelector(".add-attachment");
 
     // عرض معاينة الصور
     function previewFiles(inputElement, previewContainer) {
@@ -83,11 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // عند رفع صورة العرض
-    if (coverImageInput) {
-        const coverImageBox = document.getElementById("coverImageBox");
-        coverImageBox.addEventListener("click", () => {
-            coverImageInput.click(); // فتح نافذة اختيار الملفات لصورة العرض
+    // عند النقر على مربع صورة العرض
+    if (coverImageBox && coverImageInput) {
+        coverImageBox.addEventListener("click", (e) => {
+            e.preventDefault(); // منع أي حدث افتراضي
+            coverImageInput.click(); // فتح نافذة اختيار الملفات
         });
 
         coverImageInput.addEventListener("change", function () {
@@ -98,12 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // عند رفع المرفقات
-    if (attachmentsInput) {
-        const attachmentsPreview = document.getElementById("attachmentsPreview");
-        const addAttachmentBox = attachmentsPreview.querySelector(".add-attachment");
-        addAttachmentBox.addEventListener("click", () => {
-            attachmentsInput.click(); // فتح نافذة اختيار الملفات للمرفقات
+    // عند النقر على مربع المرفقات
+    if (attachmentsInput && addAttachmentBox) {
+        addAttachmentBox.addEventListener("click", (e) => {
+            e.preventDefault(); // منع أي حدث افتراضي
+            attachmentsInput.click(); // فتح نافذة اختيار الملفات
         });
 
         attachmentsInput.addEventListener("change", function () {
@@ -114,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // عند إرسال النموذج
+    const form = document.getElementById("propertyForm");
     if (form) {
         form.addEventListener("submit", async function (e) {
             e.preventDefault();
