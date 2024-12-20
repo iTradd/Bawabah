@@ -1,2 +1,7 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.cloudinary.com blob:; img-src 'self' data: https://res.cloudinary.com https://api.cloudinary.com; connect-src https://api.cloudinary.com;
+  Content-Security-Policy: default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.cloudinary.com https://upload-widget.cloudinary.com blob:;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  connect-src 'self' https://api.cloudinary.com https://script.google.com;
+  img-src 'self' data: https://res.cloudinary.com;
