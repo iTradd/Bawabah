@@ -51,33 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const attachmentsInput = document.getElementById("attachments");
     const form = document.getElementById("propertyForm");
 
-    // دالة إعادة تعيين ملف الإدخال
-    function resetFileInput(fileInput) {
-        const newInput = fileInput.cloneNode(true);
-        fileInput.parentNode.replaceChild(newInput, fileInput);
-        return newInput;
-    }
-
-    // دالة رفع الملفات إلى Cloudinary
-    async function uploadToCloudinary(file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "ml_default");
-
-        try {
-            const response = await fetch("https://api.cloudinary.com/v1_1/dm3hmrjvi/image/upload", {
-                method: "POST",
-                body: formData,
-            });
-            const data = await response.json();
-            if (!data.secure_url) throw new Error("فشل رفع الملف إلى Cloudinary");
-            return data.secure_url;
-        } catch (error) {
-            console.error("خطأ في رفع الملف:", error.message);
-            return null;
-        }
-    }
-
     // عرض معاينة الصور
     function previewFiles(inputElement, previewContainer) {
         const files = Array.from(inputElement.files);
@@ -110,11 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    let coverUrl = "";
-    const attachmentUrls = [];
-
     // عند رفع صورة العرض
     if (coverImageInput) {
+        const coverImageBox = document.getElementById("coverImageBox");
+        coverImageBox.addEventListener("click", () => {
+            coverImageInput.click(); // فتح نافذة اختيار الملفات لصورة العرض
+        });
+
         coverImageInput.addEventListener("change", function () {
             const previewContainer = document.getElementById("coverImageBox");
             previewFiles(this, previewContainer);
@@ -123,16 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عند رفع المرفقات
     if (attachmentsInput) {
-        const addAttachmentButton = document.querySelector(".add-attachment");
-        if (addAttachmentButton) {
-            addAttachmentButton.addEventListener("click", () => {
-                attachmentsInput.click(); // فتح نافذة رفع الملفات
-            });
-        }
+        const attachmentsPreview = document.getElementById("attachmentsPreview");
+        const addAttachmentBox = attachmentsPreview.querySelector(".add-attachment");
+        addAttachmentBox.addEventListener("click", () => {
+            attachmentsInput.click(); // فتح نافذة اختيار الملفات للمرفقات
+        });
 
         attachmentsInput.addEventListener("change", function () {
-            const previewContainer = document.getElementById("attachmentsPreview");
-            previewFiles(this, previewContainer);
+            previewFiles(this, attachmentsPreview);
         });
     }
 
@@ -161,25 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 streetCount: document.getElementById("streetCount")?.value || "",
                 shopArea: document.getElementById("shopArea")?.value || "",
                 openings: document.getElementById("openings")?.value || "",
-                coverImage: coverUrl || "",
-                attachments: attachmentUrls.join(",") || "",
             };
-
-            // رفع صورة العرض
-            if (coverImageInput.files.length > 0) {
-                const coverUploadedUrl = await uploadToCloudinary(coverImageInput.files[0]);
-                if (coverUploadedUrl) data.coverImage = coverUploadedUrl;
-            }
-
-            // رفع المرفقات
-            if (attachmentsInput.files.length > 0) {
-                const uploadedAttachmentUrls = [];
-                for (const file of attachmentsInput.files) {
-                    const url = await uploadToCloudinary(file);
-                    if (url) uploadedAttachmentUrls.push(url);
-                }
-                data.attachments = uploadedAttachmentUrls.join(",");
-            }
 
             console.log("Final Data to Server:", data);
 
