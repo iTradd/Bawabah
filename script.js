@@ -1,5 +1,5 @@
 // الرابط الخاص بـ Google Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_URL/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbpRHlHAeWUQChaJ9SToZ2_V7FZh4EJOWiAnfjTxoMhGx7Jhk2lYFrjFhHbAxNCs/exec';
 
 // رفع ملف واحد إلى Cloudinary
 async function uploadToCloudinary(file) {
