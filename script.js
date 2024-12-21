@@ -8,17 +8,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const coverImageBox = document.getElementById("coverImageBox");
     const attachmentsPreview = document.getElementById("attachmentsPreview");
 
-    // قائمة الصور المرفوعة
     let coverImageFiles = [];
     let attachmentsFiles = [];
 
+    // دالة لإضافة مربع "+"
+    function addAttachmentBox(previewContainer, inputElement) {
+        if (!previewContainer.querySelector(".add-attachment")) {
+            const addBox = document.createElement("div");
+            addBox.classList.add("add-attachment");
+            addBox.innerHTML = `<span>+</span>`;
+            addBox.addEventListener("click", () => inputElement.click());
+            previewContainer.appendChild(addBox);
+        }
+    }
+
     // عرض معاينة الصور
-    function previewFiles(inputElement, previewContainer) {
-        const files = Array.from(inputElement.files);
-
-        previewContainer.innerHTML = ""; // تفريغ المعاينة السابقة
-
-        files.forEach((file, index) => {
+    function previewFiles(inputElement, previewContainer, filesArray) {
+        previewContainer.innerHTML = ""; // تفريغ المعاينة
+        filesArray.forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const container = document.createElement("div");
@@ -31,21 +38,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // حذف الصورة عند النقر على زر الحذف
                 container.querySelector(".close-btn").addEventListener("click", () => {
-                    inputElement.files = removeFileFromList(inputElement.files, index);
-                    previewFiles(inputElement, previewContainer); // تحديث المعاينة
+                    filesArray.splice(index, 1);
+                    previewFiles(inputElement, previewContainer, filesArray);
                 });
             };
             reader.readAsDataURL(file);
         });
-    }
 
-    // دالة إزالة ملف معين من قائمة الملفات
-    function removeFileFromList(fileList, indexToRemove) {
-        const dt = new DataTransfer();
-        Array.from(fileList).forEach((file, index) => {
-            if (index !== indexToRemove) dt.items.add(file);
-        });
-        return dt.files;
+        // إضافة مربع "+"
+        addAttachmentBox(previewContainer, inputElement);
     }
 
     // عند اختيار صورة العرض
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         coverImageBox.addEventListener("click", () => coverImageInput.click());
         coverImageInput.addEventListener("change", function () {
             coverImageFiles = Array.from(this.files);
-            previewFiles(this, coverImageBox);
+            previewFiles(this, coverImageBox, coverImageFiles);
         });
     }
 
@@ -63,9 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
         addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
         attachmentsInput.addEventListener("change", function () {
             attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
-            previewFiles(this, attachmentsPreview);
+            previewFiles(this, attachmentsPreview, attachmentsFiles);
         });
     }
+});
+
 
     // عند إرسال النموذج
     const form = document.getElementById("propertyForm");
