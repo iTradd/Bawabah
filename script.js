@@ -24,36 +24,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عرض معاينة الصور
     function previewFiles(inputElement, previewContainer, filesArray) {
-    previewContainer.innerHTML = ""; // تفريغ المعاينة
-    filesArray.forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const container = document.createElement("div");
-            container.classList.add("image-container");
-            container.innerHTML = `
-                <img src="${e.target.result}" alt="معاينة">
-                <button class="close-btn" data-index="${index}">&times;</button>
-            `;
-            previewContainer.appendChild(container);
+        previewContainer.innerHTML = ""; // تفريغ المعاينة
+        filesArray.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const container = document.createElement("div");
+                container.classList.add("image-container");
+                container.innerHTML = `
+                    <img src="${e.target.result}" alt="معاينة">
+                    <button class="close-btn" data-index="${index}">&times;</button>
+                `;
+                previewContainer.appendChild(container);
 
-            // حذف الصورة عند النقر على زر الحذف
-            container.querySelector(".close-btn").addEventListener("click", () => {
-                filesArray.splice(index, 1);
-                previewFiles(inputElement, previewContainer, filesArray);
-            });
-        };
-        reader.readAsDataURL(file);
-    });
+                // حذف الصورة عند النقر على زر الحذف
+                container.querySelector(".close-btn").addEventListener("click", () => {
+                    filesArray.splice(index, 1);
+                    previewFiles(inputElement, previewContainer, filesArray);
+                });
+            };
+            reader.readAsDataURL(file);
+        });
 
-    // إضافة مربع "+" إذا لم يكن موجودًا
-    if (!previewContainer.querySelector(".add-attachment")) {
-        const addBox = document.createElement("div");
-        addBox.classList.add("add-attachment");
-        addBox.innerHTML = `<span>+</span>`;
-        addBox.addEventListener("click", () => inputElement.click());
-        previewContainer.appendChild(addBox);
+        // إضافة مربع "+"
+        addAttachmentBox(previewContainer, inputElement);
     }
-}
 
     // عند اختيار صورة العرض
     if (coverImageInput) {
@@ -66,15 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عند اختيار المرفقات
     if (attachmentsInput) {
-        const addAttachmentBox = document.querySelector("#attachmentsPreview .add-attachment");
-        addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
         attachmentsInput.addEventListener("change", function () {
             attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
             previewFiles(this, attachmentsPreview, attachmentsFiles);
         });
     }
-});
-
 
     // عند إرسال النموذج
     const form = document.getElementById("propertyForm");
