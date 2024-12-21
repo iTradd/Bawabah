@@ -1,7 +1,3 @@
-// الرابط الخاص بـ Google Script
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbpRHlHAeWUQChaJ9SToZ2_V7FZh4EJOWiAnfjTxoMhGx7Jhk2lYFrjFhHbAxNCs/exec';
-
-// عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
     const coverImageInput = document.getElementById("coverImage");
     const attachmentsInput = document.getElementById("attachments");
@@ -37,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 previewContainer.appendChild(container);
 
                 // حذف الصورة عند النقر على زر الحذف
-                container.querySelector(".close-btn").addEventListener("click", () => {
+                container.querySelector(".close-btn").addEventListener("click", (event) => {
+                    event.stopPropagation(); // لمنع فتح نافذة الرفع عند النقر على زر الحذف
                     filesArray.splice(index, 1);
                     previewFiles(inputElement, previewContainer, filesArray);
                 });
@@ -60,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // عند اختيار المرفقات
     if (attachmentsInput) {
+        attachmentsPreview.addEventListener("click", () => attachmentsInput.click());
         attachmentsInput.addEventListener("change", function () {
             attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
             previewFiles(this, attachmentsPreview, attachmentsFiles);
