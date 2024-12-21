@@ -1,131 +1,98 @@
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap');
-        
-        /* إعدادات عامة */
-        html, body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            background-color: #F9FAFB;
-            color: #333;
-            direction: rtl;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap');
 
-        header {
-            background: linear-gradient(90deg, #F96E2A, #FB8C3E);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 28px;
-            font-weight: bold;
-        }
+/* إعدادات عامة */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', sans-serif;
+    background-color: #F9FAFB;
+    color: #333;
+    direction: rtl;
+}
 
-        .property-form {
-            background: #E3F2FD;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px auto;
-            max-width: 700px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+header {
+    background: linear-gradient(90deg, #F96E2A, #FB8C3E);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-        .property-form h3 {
-            text-align: center;
-            color: #F96E2A;
-            margin-bottom: 20px;
-        }
+.property-form {
+    background: #E3F2FD;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 15px auto;
+    max-width: 700px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+.property-form h3 {
+    text-align: center;
+    color: #F96E2A;
+    margin-bottom: 20px;
+}
 
-        .form-group label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
+.form-group {
+    margin-bottom: 15px;
+}
 
-        .form-group select,
-        .form-group input,
-        .form-group textarea {
-              width: 100%; /* نفس عرض الحقول النصية */
-    padding: 10px; /* نفس الحشوة الداخلية */
-    border: 1px solid #B0BEC5; /* نفس الحدود */
-    border-radius: 10px; /* نفس الزوايا */
-    font-size: 14px; /* نفس حجم النص */
-    height: auto; /* لضبط الارتفاع تلقائيًا حسب الحشو */
-    box-sizing: border-box; /* ليشمل الحشو والحدود في العرض */
-        }
+.form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
 
-        .form-group textarea {
-            resize: none;
-            height: 80px;
-        }
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #B0BEC5;
+    border-radius: 10px;
+    font-size: 14px;
+    height: auto;
+    box-sizing: border-box;
+}
 
-        .form-group button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            background: #F96E2A;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
+.form-group textarea {
+    resize: none;
+    height: 80px;
+}
 
-        #dynamicFields {
-            margin-top: 15px;
-        }
-        
-    .upload-box {
+.form-group button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #F96E2A;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.form-group button:hover {
+    background: #FB8C3E;
+}
+
+#dynamicFields {
+    margin-top: 15px;
+}
+
+.upload-box {
     display: flex;
     align-items: flex-start;
-    flex-wrap: wrap; /* السماح بتعدد الصفوف */
-    padding: 43px;
+    flex-wrap: wrap;
+    padding: 15px;
     border: 2px dashed #B0BEC5;
     border-radius: 10px;
     background: #E3F2FD;
     cursor: pointer;
     transition: background 0.3s, border-color 0.3s;
     position: relative;
-}
-
-.image-container {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-       
-.image-container img {
-    max-width: 100px;
-    max-height: 100px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.image-container .close-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-        
-.upload-box img {
-    max-width: 100%; /* الحد الأقصى لعرض الصورة */
-    max-height: 100%; /* الحد الأقصى لارتفاع الصورة */
-    object-fit: contain; /* احتواء الصورة بالكامل */
+    gap: 10px; /* مسافة بين العناصر */
 }
 
 .upload-box:hover {
@@ -140,21 +107,80 @@
 .upload-box span {
     font-size: 16px;
     color: #555;
-    position: absolute; /* لجعل النص في الوسط حتى يتم استبداله */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 }
 
+.image-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.image-container .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-attachment {
+    width: 100px;
+    height: 100px;
+    background: #d2f1ff;
+    border: 2px dashed #78B3CE;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.add-attachment span {
+    font-size: 24px;
+    color: #7897ce;
+    font-weight: bold;
+    text-align: center;
+}
+
+.add-attachment:hover {
+    background: #bde9ff;
+    border-color: #4da3c7;
+}
+
 .image-preview {
     display: flex;
-    flex-wrap: wrap; /* السماح بتعدد الصفوف */
+    flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
     width: 100%;
 }
-
 
 .image-preview .image-container {
     position: relative;
@@ -164,6 +190,7 @@
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .image-preview img {
     width: 100%;
     height: 100%;
@@ -180,28 +207,10 @@
     border-radius: 50%;
     cursor: pointer;
     font-size: 16px;
-}
-        
-.add-attachment {
-    width: 100px;
-    height: 100px;
-    background: #d2f1ff;
-    border: 2px dashed #78B3CE;
-    border-radius: 5px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    position: relative;
-}
-
-.add-attachment span {
-    font-size: 24px; /* حجم علامة "+" */
-    color: #7897ce; /* لون علامة "+" */
-    font-weight: bold; /* خط عريض */
-    text-align: center; /* محاذاة في المنتصف */
-}
-
-        #coverImageBox {
-    cursor: pointer; /* لجعل المربع يظهر كأنه قابل للنقر */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
