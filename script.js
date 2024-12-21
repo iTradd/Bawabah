@@ -1,3 +1,6 @@
+// الرابط الخاص بـ Google Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbpRHlHAeWUQChaJ9SToZ2_V7FZh4EJOWiAnfjTxoMhGx7Jhk2lYFrjFhHbAxNCs/exec';
+
 document.addEventListener("DOMContentLoaded", () => {
     const coverImageInput = document.getElementById("coverImage");
     const attachmentsInput = document.getElementById("attachments");
