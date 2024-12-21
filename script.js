@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let attachmentsFiles = [];
 
     // عرض معاينة الصور
-    function previewFiles(files, previewContainer, fileArray) {
+    function previewFiles(files, previewContainer, fileArray, allowAddAttachment = false) {
         previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
         files.forEach((file, index) => {
             const reader = new FileReader();
@@ -67,15 +67,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 // حذف الصورة عند النقر على زر الحذف
                 container.querySelector(".close-btn").addEventListener("click", () => {
                     fileArray.splice(index, 1);
-                    previewFiles(fileArray, previewContainer, fileArray);
+                    previewFiles(fileArray, previewContainer, fileArray, allowAddAttachment);
                 });
             };
             reader.readAsDataURL(file);
         });
+
+        // إضافة مربع الإضافة إذا كان مسموحًا
+        if (allowAddAttachment) {
+            const addAttachmentBox = document.createElement("div");
+            addAttachmentBox.classList.add("add-attachment");
+            addAttachmentBox.innerHTML = `<span>+ </span>`;
+            addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
+            previewContainer.appendChild(addAttachmentBox);
+        }
     }
 
     // عند اختيار صورة العرض
     if (coverImageInput) {
+        coverImageBox.addEventListener("click", () => coverImageInput.click());
         coverImageInput.addEventListener("change", function () {
             coverImageFiles = Array.from(this.files);
             previewFiles(coverImageFiles, coverImageBox, coverImageFiles);
@@ -86,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (attachmentsInput) {
         attachmentsInput.addEventListener("change", function () {
             attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
-            previewFiles(attachmentsFiles, attachmentsPreview, attachmentsFiles);
+            previewFiles(attachmentsFiles, attachmentsPreview, attachmentsFiles, true);
         });
     }
 
