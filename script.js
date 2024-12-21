@@ -13,9 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let attachmentsFiles = [];
 
     // عرض معاينة الصور
-function previewFiles(inputElement, previewContainer, allowAddAttachment = false) {
+function previewFiles(inputElement, previewContainer) {
     const files = Array.from(inputElement.files);
-    previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
+
+    previewContainer.innerHTML = ""; // تفريغ المعاينة السابقة
 
     files.forEach((file, index) => {
         const reader = new FileReader();
@@ -30,12 +31,15 @@ function previewFiles(inputElement, previewContainer, allowAddAttachment = false
 
             // حذف الصورة عند النقر على زر الحذف
             container.querySelector(".close-btn").addEventListener("click", () => {
-                inputElement.files = removeFileFromList(inputElement.files, index);
-                previewFiles(inputElement, previewContainer, allowAddAttachment);
+                const newFiles = removeFileFromList(inputElement.files, index);
+                inputElement.files = newFiles;
+                previewFiles(inputElement, previewContainer); // تحديث المعاينة
             });
         };
         reader.readAsDataURL(file);
     });
+}
+
 
     if (allowAddAttachment) {
         const addAttachmentBox = document.createElement("div");
@@ -45,6 +49,13 @@ function previewFiles(inputElement, previewContainer, allowAddAttachment = false
     }
 }
 
+function removeFileFromList(fileList, indexToRemove) {
+    const dt = new DataTransfer();
+    Array.from(fileList).forEach((file, index) => {
+        if (index !== indexToRemove) dt.items.add(file);
+    });
+    return dt.files;
+}
 
     // عند اختيار صورة العرض
     if (coverImageInput) {
@@ -66,9 +77,9 @@ function previewFiles(inputElement, previewContainer, allowAddAttachment = false
 
     // عند إرسال النموذج
     const form = document.getElementById("propertyForm");
-    if (form) {
-        form.addEventListener("submit", async function (e) {
-            e.preventDefault();
+   if (form) {
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // منع السلوك الافتراضي للنموذج
 
             const data = {
                 action: "addProperty",
