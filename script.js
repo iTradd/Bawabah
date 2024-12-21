@@ -1,4 +1,4 @@
-// الرابط الجديد الخاص بـ Cloudflare Worker
+// الرابط الخاص بـ Google Script
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbpRHlHAeWUQChaJ9SToZ2_V7FZh4EJOWiAnfjTxoMhGx7Jhk2lYFrjFhHbAxNCs/exec';
 
 // عند تحميل الصفحة
@@ -13,73 +13,65 @@ document.addEventListener("DOMContentLoaded", () => {
     let attachmentsFiles = [];
 
     // عرض معاينة الصور
-function previewFiles(inputElement, previewContainer) {
-    const files = Array.from(inputElement.files);
+    function previewFiles(inputElement, previewContainer) {
+        const files = Array.from(inputElement.files);
 
-    previewContainer.innerHTML = ""; // تفريغ المعاينة السابقة
+        previewContainer.innerHTML = ""; // تفريغ المعاينة السابقة
 
-    files.forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const container = document.createElement("div");
-            container.classList.add("image-container");
-            container.innerHTML = `
-                <img src="${e.target.result}" alt="معاينة">
-                <button class="close-btn" data-index="${index}">&times;</button>
-            `;
-            previewContainer.appendChild(container);
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const container = document.createElement("div");
+                container.classList.add("image-container");
+                container.innerHTML = `
+                    <img src="${e.target.result}" alt="معاينة">
+                    <button class="close-btn" data-index="${index}">&times;</button>
+                `;
+                previewContainer.appendChild(container);
 
-            // حذف الصورة عند النقر على زر الحذف
-            container.querySelector(".close-btn").addEventListener("click", () => {
-                const newFiles = removeFileFromList(inputElement.files, index);
-                inputElement.files = newFiles;
-                previewFiles(inputElement, previewContainer); // تحديث المعاينة
-            });
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-
-    if (allowAddAttachment) {
-        const addAttachmentBox = document.createElement("div");
-        addAttachmentBox.classList.add("add-attachment");
-        addAttachmentBox.innerHTML = `<span>+ </span>`;
-        previewContainer.appendChild(addAttachmentBox);
+                // حذف الصورة عند النقر على زر الحذف
+                container.querySelector(".close-btn").addEventListener("click", () => {
+                    inputElement.files = removeFileFromList(inputElement.files, index);
+                    previewFiles(inputElement, previewContainer); // تحديث المعاينة
+                });
+            };
+            reader.readAsDataURL(file);
+        });
     }
-}
 
-function removeFileFromList(fileList, indexToRemove) {
-    const dt = new DataTransfer();
-    Array.from(fileList).forEach((file, index) => {
-        if (index !== indexToRemove) dt.items.add(file);
-    });
-    return dt.files;
-}
+    // دالة إزالة ملف معين من قائمة الملفات
+    function removeFileFromList(fileList, indexToRemove) {
+        const dt = new DataTransfer();
+        Array.from(fileList).forEach((file, index) => {
+            if (index !== indexToRemove) dt.items.add(file);
+        });
+        return dt.files;
+    }
 
     // عند اختيار صورة العرض
     if (coverImageInput) {
-    coverImageBox.addEventListener("click", () => coverImageInput.click());
-    coverImageInput.addEventListener("change", function () {
-        previewFiles(this, coverImageBox);
-    });
-}
-
+        coverImageBox.addEventListener("click", () => coverImageInput.click());
+        coverImageInput.addEventListener("change", function () {
+            coverImageFiles = Array.from(this.files);
+            previewFiles(this, coverImageBox);
+        });
+    }
 
     // عند اختيار المرفقات
     if (attachmentsInput) {
-    const addAttachmentBox = document.querySelector("#attachmentsPreview .add-attachment");
-    addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
-    attachmentsInput.addEventListener("change", function () {
-        previewFiles(this, attachmentsPreview, true);
-    });
-}
+        const addAttachmentBox = document.querySelector("#attachmentsPreview .add-attachment");
+        addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
+        attachmentsInput.addEventListener("change", function () {
+            attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
+            previewFiles(this, attachmentsPreview);
+        });
+    }
 
     // عند إرسال النموذج
     const form = document.getElementById("propertyForm");
-   if (form) {
-    form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // منع السلوك الافتراضي للنموذج
+    if (form) {
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault(); // منع السلوك الافتراضي للنموذج
 
             const data = {
                 action: "addProperty",
@@ -106,8 +98,8 @@ function removeFileFromList(fileList, indexToRemove) {
                     method: "POST",
                     body: formData,
                 });
-                const data = await response.json();
-                data.coverImage = data.secure_url || "";
+                const imageData = await response.json();
+                data.coverImage = imageData.secure_url || "";
             }
 
             // رفع المرفقات
@@ -121,8 +113,8 @@ function removeFileFromList(fileList, indexToRemove) {
                         method: "POST",
                         body: formData,
                     });
-                    const data = await response.json();
-                    attachmentUrls.push(data.secure_url || "");
+                    const fileData = await response.json();
+                    attachmentUrls.push(fileData.secure_url || "");
                 }
                 data.attachments = attachmentUrls.join(",");
             }
