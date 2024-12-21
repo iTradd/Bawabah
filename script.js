@@ -13,54 +13,56 @@ document.addEventListener("DOMContentLoaded", () => {
     let attachmentsFiles = [];
 
     // عرض معاينة الصور
-    function previewFiles(files, previewContainer, allowAddAttachment = false, inputElement = null) {
-        previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
-        files.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const container = document.createElement("div");
-                container.classList.add("image-container");
-                container.innerHTML = `
-                    <img src="${e.target.result}" alt="معاينة">
-                    <button class="close-btn" data-index="${index}">&times;</button>
-                `;
-                previewContainer.appendChild(container);
+function previewFiles(inputElement, previewContainer, allowAddAttachment = false) {
+    const files = Array.from(inputElement.files);
+    previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
 
-                // حذف الصورة عند النقر على زر الحذف
-                container.querySelector(".close-btn").addEventListener("click", () => {
-                    files.splice(index, 1);
-                    previewFiles(files, previewContainer, allowAddAttachment, inputElement);
-                });
-            };
-            reader.readAsDataURL(file);
-        });
+    files.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const container = document.createElement("div");
+            container.classList.add("image-container");
+            container.innerHTML = `
+                <img src="${e.target.result}" alt="معاينة">
+                <button class="close-btn" data-index="${index}">&times;</button>
+            `;
+            previewContainer.appendChild(container);
 
-        // إضافة مربع الإضافة إذا كان مسموحًا
-        if (allowAddAttachment && inputElement) {
-            const addAttachmentBox = document.createElement("div");
-            addAttachmentBox.classList.add("add-attachment");
-            addAttachmentBox.innerHTML = `<span>+ </span>`;
-            addAttachmentBox.addEventListener("click", () => inputElement.click());
-            previewContainer.appendChild(addAttachmentBox);
-        }
+            // حذف الصورة عند النقر على زر الحذف
+            container.querySelector(".close-btn").addEventListener("click", () => {
+                inputElement.files = removeFileFromList(inputElement.files, index);
+                previewFiles(inputElement, previewContainer, allowAddAttachment);
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+
+    if (allowAddAttachment) {
+        const addAttachmentBox = document.createElement("div");
+        addAttachmentBox.classList.add("add-attachment");
+        addAttachmentBox.innerHTML = `<span>+ </span>`;
+        previewContainer.appendChild(addAttachmentBox);
     }
+}
+
 
     // عند اختيار صورة العرض
     if (coverImageInput) {
-        coverImageBox.addEventListener("click", () => coverImageInput.click());
-        coverImageInput.addEventListener("change", function () {
-            coverImageFiles = Array.from(this.files);
-            previewFiles(coverImageFiles, coverImageBox);
-        });
-    }
+    coverImageBox.addEventListener("click", () => coverImageInput.click());
+    coverImageInput.addEventListener("change", function () {
+        previewFiles(this, coverImageBox);
+    });
+}
+
 
     // عند اختيار المرفقات
     if (attachmentsInput) {
-        attachmentsInput.addEventListener("change", function () {
-            attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
-            previewFiles(attachmentsFiles, attachmentsPreview, true, attachmentsInput);
-        });
-    }
+    const addAttachmentBox = document.querySelector("#attachmentsPreview .add-attachment");
+    addAttachmentBox.addEventListener("click", () => attachmentsInput.click());
+    attachmentsInput.addEventListener("change", function () {
+        previewFiles(this, attachmentsPreview, true);
+    });
+}
 
     // عند إرسال النموذج
     const form = document.getElementById("propertyForm");
