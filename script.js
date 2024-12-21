@@ -1,4 +1,4 @@
-// الرابط الجديد الخاص بـ Cloudflare Worker
+// الرابط الخاص بـ Google Script
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRbpRHlHAeWUQChaJ9SToZ2_V7FZh4EJOWiAnfjTxoMhGx7Jhk2lYFrjFhHbAxNCs/exec';
 
 // دالة تحديث الحقول الديناميكية
@@ -43,75 +43,70 @@ function updateDynamicFields() {
 // عند تحميل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
     const propertyTypeElement = document.getElementById("propertyType");
-    if (propertyTypeElement) {
-        propertyTypeElement.addEventListener("change", updateDynamicFields);
-    }
-
     const coverImageInput = document.getElementById("coverImage");
     const attachmentsInput = document.getElementById("attachments");
     const coverImageBox = document.getElementById("coverImageBox");
     const attachmentsPreview = document.getElementById("attachmentsPreview");
-    const addAttachmentBox = attachmentsPreview.querySelector(".add-attachment");
+    let coverImageFiles = [];
+    let attachmentsFiles = [];
 
     // عرض معاينة الصور
-    function previewFiles(inputElement, previewContainer) {
-        const files = Array.from(inputElement.files);
-
-        // إزالة الصور الحالية مع ترك مربع الإضافة
-        const existingImages = previewContainer.querySelectorAll(".image-container");
-        existingImages.forEach((img) => {
-            if (!img.classList.contains("add-attachment")) {
-                img.remove();
-            }
-        });
-
-        files.forEach((file) => {
+    function previewFiles(files, previewContainer, fileArray) {
+        previewContainer.innerHTML = ''; // تفريغ المعاينة السابقة
+        files.forEach((file, index) => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const container = document.createElement("div");
                 container.classList.add("image-container");
                 container.innerHTML = `
                     <img src="${e.target.result}" alt="معاينة">
-                    <button class="close-btn">&times;</button>
+                    <button class="close-btn" data-index="${index}">&times;</button>
                 `;
-                previewContainer.insertBefore(container, previewContainer.querySelector(".add-attachment"));
+                previewContainer.appendChild(container);
 
-                // حذف المرفق عند النقر على الزر
+                // حذف الصورة عند النقر على زر الحذف
                 container.querySelector(".close-btn").addEventListener("click", () => {
-                    container.remove();
+                    fileArray.splice(index, 1);
+                    previewFiles(fileArray, previewContainer, fileArray);
                 });
             };
             reader.readAsDataURL(file);
         });
     }
 
-    // عند النقر على مربع صورة العرض
-    if (coverImageBox && coverImageInput) {
-        coverImageBox.addEventListener("click", (e) => {
-            e.preventDefault(); // منع أي حدث افتراضي
-            coverImageInput.click(); // فتح نافذة اختيار الملفات
-        });
-
+    // عند اختيار صورة العرض
+    if (coverImageInput) {
         coverImageInput.addEventListener("change", function () {
-            if (this.files.length > 0) {
-                const previewContainer = document.getElementById("coverImageBox");
-                previewFiles(this, previewContainer);
-            }
+            coverImageFiles = Array.from(this.files);
+            previewFiles(coverImageFiles, coverImageBox, coverImageFiles);
         });
     }
 
-    // عند النقر على مربع المرفقات
-    if (attachmentsInput && addAttachmentBox) {
-        addAttachmentBox.addEventListener("click", (e) => {
-            e.preventDefault(); // منع أي حدث افتراضي
-            attachmentsInput.click(); // فتح نافذة اختيار الملفات
-        });
-
+    // عند اختيار المرفقات
+    if (attachmentsInput) {
         attachmentsInput.addEventListener("change", function () {
-            if (this.files.length > 0) {
-                previewFiles(this, attachmentsPreview);
-            }
+            attachmentsFiles = [...attachmentsFiles, ...Array.from(this.files)];
+            previewFiles(attachmentsFiles, attachmentsPreview, attachmentsFiles);
         });
+    }
+
+    // رفع الملفات إلى Cloudinary
+    async function uploadToCloudinary(file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "ml_default");
+
+        try {
+            const response = await fetch("https://api.cloudinary.com/v1_1/dm3hmrjvi/image/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await response.json();
+            return data.secure_url || null;
+        } catch (error) {
+            console.error("فشل رفع الملف:", error.message);
+            return null;
+        }
     }
 
     // عند إرسال النموذج
@@ -142,8 +137,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 openings: document.getElementById("openings")?.value || "",
             };
 
-            console.log("Final Data to Server:", data);
+            // رفع صورة العرض
+            if (coverImageFiles.length > 0) {
+                const url = await uploadToCloudinary(coverImageFiles[0]);
+                if (url) data.coverImage = url;
+            }
 
+            // رفع المرفقات
+            if (attachmentsFiles.length > 0) {
+                const urls = [];
+                for (const file of attachmentsFiles) {
+                    const url = await uploadToCloudinary(file);
+                    if (url) urls.push(url);
+                }
+                data.attachments = urls.join(",");
+            }
+
+            // إرسال البيانات إلى Google Script
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: "POST",
